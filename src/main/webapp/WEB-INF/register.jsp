@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <title>Registration Page</title>
+  </head>
+  <body>
+    <h1 class="display-2 d-flex justify-content-center">Register</h1>
+    <main class="container">
+      <form method="POST" action="/register">
+        <!-- Email -->
+        <div class="form-group">
+          <label>Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            aria-describedby="emailHelp"
+            placeholder="Enter email"
+            name="email"
+          />
+          <small class="form-text text-muted"
+            >We'll never share your email with anyone else.</small
+          >
+        </div>
+        <!-- Username -->
+        <div class="form-group">
+          <label>Username</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Username"
+            name="username"
+          />
+          <small class="form-text text-muted"
+            >Username can contain any letters or numbers, without spaces, at
+            least 3 character.</small
+          >
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            name="password"
+          />
+          <small class="form-text text-muted"
+            >Password must be at least 8 character and contain at least one
+            letter, number, special char, without spaces.</small
+          >
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Confirm password"
+            name="confirmPassword"
+          />
+          <small class="form-text text-muted">Confirm Password</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </main>
+    <!-- Boostrap script-->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
+l
