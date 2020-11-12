@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,27 +13,27 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous"
     />
-    <title>ListUsers</title>
+    <title>Create notes</title>
   </head>
   <body>
-    <table class="table table-striped">
-      <tr>
-        <th>id</th>
-        <th>email</th>
-        <th>username</th>
-        <th>password</th>
-      </tr>
-      <c:forEach var="c" items="${users}">
+    <h1 class="display-2 d-flex justify-content-center">Create Notes</h1>
+    <main class="container">
+        <form>
+            <div class="form-group">
+                <label>Title of the note</label>
+                <input type="text" class="form-control" name="title" aria-describedby="basic-addon1">
+            </div>
 
-        <tr>
-            <td>${c.id}</td>
-            <td>${c.email}</td>
-            <td>${c.username}</td>
-            <td>${c.password}</td>
-        </tr>
-        </c:forEach>
-    </table>
+            <div class="form-group">
+                <label>Text of the note</label>
+                <textarea class="form-control rounded-0" name="text" rows="20"></textarea>
+                <style>textarea {resize: none; overflow: auto;}</style>
+            </div>
 
+            <button type="submit" class="btn btn-primary">Create note</button>
+        </form>
+    </main>
+    <!-- Boostrap script-->
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

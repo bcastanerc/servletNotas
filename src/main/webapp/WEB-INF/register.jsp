@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -72,6 +75,14 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
+    
+      <c:if test="${error eq true}">
+      <br/>
+        <div class="alert alert-warning fade show">
+          <strong>Warning!</strong> Please enter a valid value in all the required fields before proceeding. You only can register an email once.
+          <button type="button" class="close" data-dismiss="alert"></button>
+        </div>
+      </c:if>
     </main>
     <!-- Boostrap script-->
     <script

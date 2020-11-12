@@ -15,6 +15,7 @@ public class UserDAOImplementation implements UserDAO{
         List<User> users = new ArrayList<>();
         try {
             Connection c = Database.getConnection();
+            assert c != null;
             PreparedStatement ps = c.prepareStatement("select * from users");
             ResultSet rs = ps.executeQuery();
 
@@ -35,7 +36,19 @@ public class UserDAOImplementation implements UserDAO{
 
     @Override
     public void add(User user) {
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("insert into users (email,username,password) values(?,?,?)");
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getUsername());
+            ps.setString(3, user.getPassword());
+            ps.execute();
 
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Error insert");
+        }
     }
 
     @Override
@@ -49,7 +62,42 @@ public class UserDAOImplementation implements UserDAO{
     }
 
     @Override
-    public User getFromId(int id) {
-        return null;
+    public User getFromLogin(String email, String password) {
+        User user = null;
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+
+            PreparedStatement ps = c.prepareStatement("select * from users where email = ? and password = ?");
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+            user = new User( rs.getInt("id"),rs.getString("email"), rs.getString("username"), rs.getString("password"));
+            ps.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        System.out.println(user);
+        return user;
+    }
+
+    //TODO
+    @Override
+    public boolean isEmailNotUsed(String email) {
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("select email from users where email = ?");
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+            return !rs.next();
+        }
+        catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
     }
 }

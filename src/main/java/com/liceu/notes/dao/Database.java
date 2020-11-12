@@ -8,7 +8,7 @@ public class Database {
 
     static Connection getConnection(){
         try{
-            String url = "jdbc:sqlite:C:/Users/usuario/IdeaProject/demoJSP/demoJSP/servletNotas/notesDatabase.db";
+            String url = "jdbc:sqlite:C:\\Users\\usuario\\Desktop\\Grado_Superior_segundo\\sqlite3\\sqlite-tools-win32-x86-3330000\\notesDatabase.db";
             if (connection  == null){
                 Class.forName("org.sqlite.JDBC");
                 connection = DriverManager.getConnection(url);

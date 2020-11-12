@@ -11,6 +11,11 @@ import java.io.IOException;
 public class CORSFilter implements Filter{
 
     @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         resp.addHeader("Acces-Control-Allow-Origin", "http://localhost:8080");
@@ -21,6 +26,14 @@ public class CORSFilter implements Filter{
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         if (req.getMethod().equals("OPTIONS")){
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+            return;
         }
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }

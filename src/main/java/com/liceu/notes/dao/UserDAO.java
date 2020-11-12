@@ -10,5 +10,6 @@ public interface UserDAO {
     void add(User user);
     void delete(User user);
     void update(User user);
-    User getFromId(int id);
+    User getFromLogin(String email, String password);
+    boolean isEmailNotUsed(String email);
 }

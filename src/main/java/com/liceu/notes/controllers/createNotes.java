@@ -13,24 +13,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(value = "/listUsers")
-public class listUsers extends HttpServlet {
+@WebServlet(value = "/createNotes")
+public class createNotes extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        // Hay que poner  UserDAO en capa de servicio
-        UserDAO ud = new UserDAOImplementation();
-
-        try {
-            List<User> users = ud.getAll();
-            req.setAttribute("users", users);
-        } catch (Exception e) {
-            e.printStackTrace();
-            PrintWriter pw = resp.getWriter();
-            pw.print(e);
-        }
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/listUsers.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/createNotes.jsp");
         dispatcher.forward(req, resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/createNotes.jsp");
+        dispatcher.forward(req, resp);    }
 }

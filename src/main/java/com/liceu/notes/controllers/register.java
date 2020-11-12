@@ -1,5 +1,8 @@
 package com.liceu.notes.controllers;
 
+import com.liceu.notes.dao.UserDAO;
+import com.liceu.notes.dao.UserDAOImplementation;
+import com.liceu.notes.models.User;
 import com.liceu.notes.services.ValidData;
 
 import javax.servlet.RequestDispatcher;
@@ -10,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.security.NoSuchAlgorithmException;
 
 
 @WebServlet(value = "/register")
@@ -33,16 +36,20 @@ public class register extends HttpServlet {
 
         if (password.equals(confirmPassword) && validData.isPasswordValid(password)
                 && validData.isEmailValid(email) &&  validData.isUsernameValid(username)){
+            try {
+                String encryptedPassword = validData.encryptPassword(password);
+                UserDAO ud = new UserDAOImplementation();
+                ud.add(new User(0, email, username, encryptedPassword));
 
+                resp.sendRedirect(req.getContextPath() + "/login");
+
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        }else{
+            req.setAttribute("error", true);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/register.jsp");
+            dispatcher.forward(req, resp);
         }
-
-        pw.print("<html><body><p>"
-                + "Email is valid? " + email + " " + validData.isEmailValid(email) +
-                " | User is valid? " + username + " " + validData.isUsernameValid(username) +
-                " | Password is valid? " + password + " " + validData.isPasswordValid(password) +
-                " | Password is confirmed" + confirmPassword + " " + password.equals(confirmPassword) +
-                "</p></body></html>");
-
-
     }
 }
