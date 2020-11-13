@@ -1,20 +1,20 @@
 package com.liceu.notes.models;
 
-import java.sql.Date;
-
 public class Note {
     private int id;
     private String title;
     private String text;
-    private Date creationDate;
-    private Date modificationDate;
+    private String creation_date;
+    private String last_modification;
+    private int user_id;
 
-    Note(int id, String title, String text, Date creationDate, Date modificationDate){
+    public Note(int id, String title, String text, String creation_date, String last_modification, int user_id) {
         this.id = id;
         this.title = title;
         this.text = text;
-        this.creationDate = creationDate;
-        this.modificationDate = modificationDate;
+        this.creation_date = creation_date;
+        this.last_modification = last_modification;
+        this.user_id = user_id;
     }
 
     public int getId() {
@@ -41,19 +41,28 @@ public class Note {
         this.text = text;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public String getCreation_date() {
+        return creation_date;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setCreation_date(String creation_date) {
+        this.creation_date = creation_date;
     }
 
-    public Date getModificationDate() {
-        return modificationDate;
+    public String getLast_modification() {
+        return last_modification;
     }
 
-    public void setModificationDate(Date modificationDate) {
-        this.modificationDate = modificationDate;
+    public void setLast_modification(String last_modification) {
+        this.last_modification = last_modification;
     }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
 }

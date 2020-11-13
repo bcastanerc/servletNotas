@@ -37,22 +37,9 @@
     </nav>
   </header>
   <br><br>
-    <h1 class="display-2 d-flex justify-content-center">Create Notes</h1>
+    <h1 class="display-2 d-flex justify-content-center">Your info</h1>
     <main class="container">
-        <form method="POST" action="/createNotes">
-            <div class="form-group">
-                <label>Title of the note</label>
-                <input type="text" class="form-control" name="title" aria-describedby="basic-addon1">
-            </div>
-
-            <div class="form-group">
-                <label>Text of the note</label>
-                <textarea class="form-control rounded-0" name="text" rows="20"></textarea>
-                <style>textarea {resize: none; overflow: auto;}</style>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Create note</button>
-        </form>
+      
     </main>
     <!-- Boostrap script-->
     <script

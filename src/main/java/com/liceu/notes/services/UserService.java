@@ -1,13 +1,19 @@
 package com.liceu.notes.services;
+
 import com.liceu.notes.dao.UserDAO;
 import com.liceu.notes.dao.UserDAOImplementation;
+import com.liceu.notes.models.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ValidData {
+public class UserService {
+    UserDAO userDAO = new UserDAOImplementation();
+
     public boolean isPasswordValid(String password){
         Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
         Matcher passMatcher = passPattern.matcher(password);
@@ -38,8 +44,28 @@ public class ValidData {
         for (byte b : digest) {
             hexString.append(Integer.toHexString(0xFF & b));
         }
-
         return hexString.toString();
+    }
+
+
+    public void add(User user){
+        userDAO.add(user);
+    }
+
+    public User getFromLogin(String email, String password){
+       return userDAO.getFromLogin(email,password);
+    }
+
+    public List<User> getAll() throws SQLException {
+       return userDAO.getAll();
+    }
+
+    public void update(User user){
+
+    }
+
+    public void delete(User user){
+
     }
 
 }

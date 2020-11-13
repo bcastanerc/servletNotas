@@ -1,9 +1,7 @@
 package com.liceu.notes.controllers;
 
-import com.liceu.notes.dao.UserDAO;
-import com.liceu.notes.dao.UserDAOImplementation;
 import com.liceu.notes.models.User;
-import com.liceu.notes.services.ValidData;
+import com.liceu.notes.services.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 
 
@@ -31,15 +28,13 @@ public class register extends HttpServlet {
         String password =req.getParameter("password");
         String confirmPassword =req.getParameter("confirmPassword");
 
-        ValidData validData = new ValidData();
-        PrintWriter pw = resp.getWriter();
+        UserService userService = new UserService();
 
-        if (password.equals(confirmPassword) && validData.isPasswordValid(password)
-                && validData.isEmailValid(email) &&  validData.isUsernameValid(username)){
+        if (password.equals(confirmPassword) && userService.isPasswordValid(password)
+                && userService.isEmailValid(email) &&  userService.isUsernameValid(username)){
             try {
-                String encryptedPassword = validData.encryptPassword(password);
-                UserDAO ud = new UserDAOImplementation();
-                ud.add(new User(0, email, username, encryptedPassword));
+                String encryptedPassword = userService.encryptPassword(password);
+                userService.add(new User(0, email, username, encryptedPassword));
 
                 resp.sendRedirect(req.getContextPath() + "/login");
 

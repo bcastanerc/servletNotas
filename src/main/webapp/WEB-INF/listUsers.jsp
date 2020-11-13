@@ -18,7 +18,27 @@
     />
     <title>ListUsers</title>
   </head>
-  <body>
+  <body> <header>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark scrolling-navbar">
+      <div class="collapse navbar-collapse" >
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/createNotes">Create Notes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/userNotes">Your Notes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/userInfo">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="/login">Log-Out</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <br><br>
     <table class="table table-striped">
       <tr>
         <th>id</th>
@@ -27,7 +47,6 @@
         <th>password</th>
       </tr>
       <c:forEach var="c" items="${users}">
-
         <tr>
             <td>${c.id}</td>
             <td>${c.email}</td>

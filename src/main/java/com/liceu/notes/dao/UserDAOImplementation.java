@@ -47,7 +47,7 @@ public class UserDAOImplementation implements UserDAO{
 
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("Error insert");
+            System.out.println("Error insert user");
         }
     }
 
@@ -83,7 +83,6 @@ public class UserDAOImplementation implements UserDAO{
         return user;
     }
 
-    //TODO
     @Override
     public boolean isEmailNotUsed(String email) {
         try {

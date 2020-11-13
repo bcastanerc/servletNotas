@@ -1,7 +1,5 @@
 package com.liceu.notes.controllers;
-import com.liceu.notes.dao.UserDAO;
-import com.liceu.notes.dao.UserDAOImplementation;
-import com.liceu.notes.models.User;
+import com.liceu.notes.services.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 @WebServlet(value = "/listUsers")
 public class listUsers extends HttpServlet {
@@ -19,11 +16,10 @@ public class listUsers extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         // Hay que poner  UserDAO en capa de servicio
-        UserDAO ud = new UserDAOImplementation();
+        UserService userService = new UserService();
 
         try {
-            List<User> users = ud.getAll();
-            req.setAttribute("users", users);
+            req.setAttribute("users", userService.getAll());
         } catch (Exception e) {
             e.printStackTrace();
             PrintWriter pw = resp.getWriter();

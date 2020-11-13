@@ -12,4 +12,5 @@ public interface UserDAO {
     void update(User user);
     User getFromLogin(String email, String password);
     boolean isEmailNotUsed(String email);
+
 }

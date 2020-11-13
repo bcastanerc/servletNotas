@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -33,26 +36,38 @@
             <a class="nav-link text-danger" href="/login">Log-Out</a>
           </li>
         </ul>
+        <div class="d-flex flex-row">
+          <div class="form-inline mr-auto">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+          </div>
+          <button href="#!" class="btn btn-outline-blue btn-md my-0 ml-sm-2 btn-light" type="submit">Search</button>
+        </div>
       </div>
     </nav>
   </header>
   <br><br>
-    <h1 class="display-2 d-flex justify-content-center">Create Notes</h1>
+    <h1 class="display-2 d-flex justify-content-center">Your Notes</h1>
     <main class="container">
-        <form method="POST" action="/createNotes">
-            <div class="form-group">
-                <label>Title of the note</label>
-                <input type="text" class="form-control" name="title" aria-describedby="basic-addon1">
-            </div>
-
-            <div class="form-group">
-                <label>Text of the note</label>
-                <textarea class="form-control rounded-0" name="text" rows="20"></textarea>
-                <style>textarea {resize: none; overflow: auto;}</style>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Create note</button>
-        </form>
+      <table class="table table-striped">
+        <tr>
+          <th>id</th>
+          <th>title</th>
+          <th>text</th>
+          <th>creation_date</th>
+          <th>last_modification</th>
+          <th>user_id</th>
+        </tr>
+        <c:forEach var="n" items="${notes}">
+          <tr>
+              <td>${n.id}</td>
+              <td>${n.title}</td>
+              <td>${n.text}</td>
+              <td>${n.creation_date}</td>
+              <td>${n.last_modification}</td>
+              <td>${n.user_id}</td>
+          </tr>
+        </c:forEach>
+      </table>
     </main>
     <!-- Boostrap script-->
     <script
