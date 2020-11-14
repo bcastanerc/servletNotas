@@ -35,8 +35,10 @@ public class createNotes extends HttpServlet {
         String title = req.getParameter("title");
         String text = req.getParameter("text");
         try{
+            HttpSession session = req.getSession();
+
             NoteService noteService = new NoteService();
-            noteService.add(new Note(0,title,text,null,null, 1));
+            noteService.add(new Note(0,title,text,null,null, (Integer) session.getAttribute("user_id")));
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/createNotes.jsp");
             dispatcher.forward(req, resp);
         }catch (Exception e){

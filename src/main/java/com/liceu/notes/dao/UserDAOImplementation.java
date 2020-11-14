@@ -58,7 +58,19 @@ public class UserDAOImplementation implements UserDAO{
 
     @Override
     public void update(User user) {
-
+        Connection c = Database.getConnection();
+        assert c != null;
+        try {
+            PreparedStatement ps = c.prepareStatement("update users set username = ?, email = ?, password = ? where id = ?");
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setInt(4, user.getId());
+            ps.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+       
     }
 
     @Override

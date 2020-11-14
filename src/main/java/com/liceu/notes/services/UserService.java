@@ -60,12 +60,15 @@ public class UserService {
        return userDAO.getAll();
     }
 
-    public void update(User user){
-
+    public void update(User user) throws SQLException {
+    userDAO.update(user);
     }
 
     public void delete(User user){
 
     }
 
+    public User getUserFromId(int id){
+        return userDAO.getUserFromId(id);
+    }
 }

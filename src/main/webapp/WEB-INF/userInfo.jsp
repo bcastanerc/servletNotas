@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -38,8 +41,56 @@
   </header>
   <br><br>
     <h1 class="display-2 d-flex justify-content-center">Your info</h1>
-    <main class="container">
-      
+     <main class="container">
+      <form method="POST" action="/userInfo">
+        <div class="form-group">
+
+          <div class="form-group">
+          <label>Username</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="${username}"
+            name="username"
+          />
+
+          <label>Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            aria-describedby="emailHelp"
+            placeholder="${email}"
+            name="email"
+          />
+          
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="password"
+            name="password"
+          />
+
+          <div class="form-group">
+          <label> Confirm Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="password"
+            name="confirmPassword"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+      <c:if test="${error eq true}">
+      <br/>
+        <div class="alert alert-warning fade show">
+          <strong>Warning!</strong> Please enter valid data for the update.
+          <button type="button" class="close" data-dismiss="alert"></button>
+        </div>
+      </c:if>
     </main>
     <!-- Boostrap script-->
     <script
