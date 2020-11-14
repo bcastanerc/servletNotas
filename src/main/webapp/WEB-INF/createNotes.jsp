@@ -30,7 +30,7 @@
             <a class="nav-link" href="/userInfo">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-danger" href="/login">Log-Out</a>
+            <a class="nav-link text-danger" href="?logout">Log-Out</a>
           </li>
         </ul>
       </div>

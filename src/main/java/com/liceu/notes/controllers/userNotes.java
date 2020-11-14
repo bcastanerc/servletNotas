@@ -18,7 +18,7 @@ public class userNotes extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         NoteService noteService = new NoteService();
-        req.setAttribute("notes", noteService.getAllFromId(1));
+        req.setAttribute("notes", noteService.cutNotes(noteService.getAllFromId(1)));
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/userNotes.jsp");
         dispatcher.forward(req, resp);

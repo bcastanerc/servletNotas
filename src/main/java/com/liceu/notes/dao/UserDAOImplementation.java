@@ -79,7 +79,6 @@ public class UserDAOImplementation implements UserDAO{
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        System.out.println(user);
         return user;
     }
 
@@ -98,5 +97,27 @@ public class UserDAOImplementation implements UserDAO{
             throwables.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public User getUserFromId(int id) {
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            String email = rs.getString("email");
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+
+            ps.close();
+            return new User(id, email, username, password);
+            
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        return null;
     }
 }

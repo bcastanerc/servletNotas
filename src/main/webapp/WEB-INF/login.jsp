@@ -46,6 +46,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
+      <a href="/register" class="my-0 ml-sm-2">If youd don't have an account register first...</a>
        <c:if test="${error eq true}">
       <br/>
         <div class="alert alert-warning fade show">

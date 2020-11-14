@@ -40,6 +40,15 @@
           <div class="form-inline mr-auto">
             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
           </div>
+          <div class="form-inline mr-auto my-0 ml-sm-2 ">
+            <select id="inputState" class="form-control">
+              <option name="titleSearch" selected>By title</option>
+              <option name="textSearch">By text</option>
+              <option name="expresionSearch">By expresion</option>
+              <option name="creationDateSearch">By creation date</option>
+              <option name="modificationDateSearch">By modification date</option>
+            </select>
+          </div>
           <button href="#!" class="btn btn-outline-blue btn-md my-0 ml-sm-2 btn-light" type="submit">Search</button>
         </div>
       </div>
