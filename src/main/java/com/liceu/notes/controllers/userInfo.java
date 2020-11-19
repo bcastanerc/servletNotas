@@ -1,7 +1,6 @@
 package com.liceu.notes.controllers;
 
 import com.liceu.notes.models.User;
-import com.liceu.notes.services.NoteService;
 import com.liceu.notes.services.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -44,18 +43,18 @@ public class userInfo extends HttpServlet {
         HttpSession session = req.getSession();
         User actualUser = userService.getUserFromId((int) session.getAttribute("user_id"));
 
-        // TODO no hace update al user.
         if (password.equals(confirmPassword) && userService.isPasswordValid(password)
                 && (userService.isEmailValid(email) || email.equals(actualUser.getEmail()))
                 && userService.isUsernameValid(username)){
             try {
-                User updatedUser = new User(actualUser.getId(),email,username,userService.encryptPassword(password));
-                userService.update(updatedUser);
+                userService.update(new User(actualUser.getId(),email,username,userService.encryptPassword(password)));
+                session.invalidate();
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/login.jsp");
+                dispatcher.forward(req, resp);
             } catch (NoSuchAlgorithmException | SQLException e) {
                 e.printStackTrace();
             }
         }else req.setAttribute("error", true);
-
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/userInfo.jsp");
         dispatcher.forward(req, resp);
     }

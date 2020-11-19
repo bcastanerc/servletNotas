@@ -33,64 +33,28 @@
             <a class="nav-link" href="/userInfo">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-danger"  href="?logout">Log-Out</a>
+            <a class="nav-link text-danger" href="?logout">Log-Out</a>
           </li>
         </ul>
       </div>
     </nav>
   </header>
   <br><br>
-    <h1 class="display-2 d-flex justify-content-center">Your info</h1>
-     <main class="container">
-      <form method="POST" action="/userInfo">
-        <div class="form-group">
-
-          <div class="form-group">
-          <label>Username</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="${username}"
-            name="username"
-          />
-
-          <label>Email address</label>
-          <input
-            type="email"
-            class="form-control"
-            aria-describedby="emailHelp"
-            placeholder="${email}"
-            name="email"
-          />
-          
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="password"
-            name="password"
-          />
-
-          <div class="form-group">
-          <label> Confirm Password</label>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="password"
-            name="confirmPassword"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Update</button>
-      </form>
-      <c:if test="${error eq true}">
-      <br/>
-        <div class="alert alert-warning fade show">
-          <strong>Warning!</strong> Please enter valid data for the update.
-          <button type="button" class="close" data-dismiss="alert"></button>
-        </div>
-      </c:if>
+    <h1 class="display-2 d-flex justify-content-center">Create Notes</h1>
+    <main class="container">
+        <form method="POST" action="/viewNote">
+            <div class="form-group">
+                <label>Title of the note</label>
+                <input id="title" type="text" class="form-control" name="title" aria-describedby="basic-addon1" value = "${title}">
+            </div>
+            <div class="form-group">
+                <label>Text of the note</label>
+                <textarea class="form-control rounded-0" name="text" rows="20">${text}</textarea>
+                <style>textarea {resize: none; overflow: auto;}</style>
+            </div>
+            <button type="submit" class="btn btn-primary">submit edit</button>
+            <input type="hidden" name="id" value="${id}">
+        </form>
     </main>
     <!-- Boostrap script-->
     <script

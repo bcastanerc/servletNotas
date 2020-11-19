@@ -22,8 +22,8 @@ public class login extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email =req.getParameter("email");
-        String password =req.getParameter("password");
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
 
         UserService userService = new UserService();
 
@@ -43,6 +43,7 @@ public class login extends HttpServlet {
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            System.out.println("Error login");
         }
 
     }

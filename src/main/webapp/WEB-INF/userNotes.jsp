@@ -18,7 +18,7 @@
     />
     <title>Create notes</title>
   </head>
-  <body>
+  <body style="background-color: #fffdd0">
   <header>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark scrolling-navbar">
       <div class="collapse navbar-collapse" >
@@ -33,7 +33,7 @@
             <a class="nav-link" href="/userInfo">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-danger" href="/login">Log-Out</a>
+            <a class="nav-link text-danger"  href="?logout">Log-Out</a>
           </li>
         </ul>
         <div class="d-flex flex-row">
@@ -57,26 +57,20 @@
   <br><br>
     <h1 class="display-2 d-flex justify-content-center">Your Notes</h1>
     <main class="container">
-      <table class="table table-striped">
-        <tr>
-          <th>id</th>
-          <th>title</th>
-          <th>text</th>
-          <th>creation_date</th>
-          <th>last_modification</th>
-          <th>user_id</th>
-        </tr>
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-around; width: 85%;">
         <c:forEach var="n" items="${notes}">
-          <tr>
-              <td>${n.id}</td>
-              <td>${n.title}</td>
-              <td>${n.text}</td>
-              <td>${n.creation_date}</td>
-              <td>${n.last_modification}</td>
-              <td>${n.user_id}</td>
-          </tr>
+          <div class="card" style="width: 40%; height: 250px; margin-left: 45px; margin-top: 25px; margin-bottom: 25px;">
+           <div class="card-body">
+              <h5 class="card-title">${n.title}</h5>
+              <p class="card-text">${n.text}</p>
+              <div class="d-flex justify-content-around" style="position: absolute; bottom: 10px;">
+                <a href="/viewNote?id=${n.id}" class="btn btn-primary" value="${n.id}">View</a>
+                <p class="card-text" style="margin : 5px"><small class="text-muted">Last edit ${n.last_modification}</small></p>
+              </div>
+            </div>
+          </div>
         </c:forEach>
-      </table>
+      </div>
     </main>
     <!-- Boostrap script-->
     <script

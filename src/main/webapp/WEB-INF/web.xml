@@ -3,6 +3,7 @@
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
+<request-character-encoding>UTF-8</request-character-encoding>
   <display-name>Archetype Created Web Application</display-name>
   <filter-mapping>
     <filter-name>corsfilter</filter-name>
@@ -13,5 +14,10 @@
     <url-pattern>/userNotes</url-pattern>
     <url-pattern>/userInfo</url-pattern>
     <url-pattern>/createNotes</url-pattern>
+    <url-pattern>/viewNote</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>logoutfilter</filter-name>
+    <url-pattern>/*</url-pattern>
   </filter-mapping>
 </web-app>

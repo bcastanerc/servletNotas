@@ -18,7 +18,6 @@ public class UserDAOImplementation implements UserDAO{
             assert c != null;
             PreparedStatement ps = c.prepareStatement("select * from users");
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String email = rs.getString("email");
@@ -27,7 +26,10 @@ public class UserDAOImplementation implements UserDAO{
 
                 users.add(new User(id, email, username, password));
             }
+
+            rs.close();
             ps.close();
+            Database.closeConnection();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -45,9 +47,10 @@ public class UserDAOImplementation implements UserDAO{
             ps.setString(3, user.getPassword());
             ps.execute();
 
+            ps.close();
+            Database.closeConnection();
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("Error insert user");
         }
     }
 
@@ -58,19 +61,21 @@ public class UserDAOImplementation implements UserDAO{
 
     @Override
     public void update(User user) {
-        Connection c = Database.getConnection();
-        assert c != null;
         try {
-            PreparedStatement ps = c.prepareStatement("update users set username = ?, email = ?, password = ? where id = ?");
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getEmail());
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("update users set email = ?, username = ?, password = ? where id = ?");
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getUsername());
             ps.setString(3, user.getPassword());
             ps.setInt(4, user.getId());
+            ps.executeUpdate();
+
             ps.close();
+            Database.closeConnection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-       
     }
 
     @Override
@@ -79,15 +84,16 @@ public class UserDAOImplementation implements UserDAO{
         try {
             Connection c = Database.getConnection();
             assert c != null;
-
             PreparedStatement ps = c.prepareStatement("select * from users where email = ? and password = ?");
             ps.setString(1, email);
             ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
             user = new User( rs.getInt("id"),rs.getString("email"), rs.getString("username"), rs.getString("password"));
-            ps.close();
 
+            rs.close();
+            ps.close();
+            Database.closeConnection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -103,6 +109,9 @@ public class UserDAOImplementation implements UserDAO{
             ps.setString(1, email);
 
             ResultSet rs = ps.executeQuery();
+            rs.close();
+            ps.close();
+            Database.closeConnection();
             return !rs.next();
         }
         catch (SQLException throwables) {
@@ -124,7 +133,9 @@ public class UserDAOImplementation implements UserDAO{
             String username = rs.getString("username");
             String password = rs.getString("password");
 
+            rs.close();
             ps.close();
+            Database.closeConnection();
             return new User(id, email, username, password);
             
             }catch (Exception e){

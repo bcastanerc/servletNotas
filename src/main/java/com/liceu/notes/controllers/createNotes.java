@@ -18,14 +18,6 @@ import java.io.IOException;
 public class createNotes extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        if (req.getParameter("logout") != null){
-            HttpSession session = req.getSession();
-            session.invalidate();
-            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/login.jsp");
-            dispatcher.forward(req, resp);
-            return;
-        }
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/createNotes.jsp");
         dispatcher.forward(req, resp);
     }
@@ -45,6 +37,5 @@ public class createNotes extends HttpServlet {
             e.printStackTrace();
             System.out.println("error en createNotes");
         }
-
     }
 }
