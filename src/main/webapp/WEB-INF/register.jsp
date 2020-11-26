@@ -74,11 +74,11 @@
           <small class="form-text text-muted">Confirm Password</small>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <input type="hidden" name="_csrftoken" value="${csrfToken}">
       </form>
     
       <c:if test="${error eq true}">
-      <br/>
-        <div class="alert alert-warning fade show">
+        <div style="margin-top: 20px;" class="alert alert-warning fade show">
           <strong>Warning!</strong> Please enter a valid value in all the required fields before proceeding. You only can register an email once.
           <button type="button" class="close" data-dismiss="alert"></button>
         </div>

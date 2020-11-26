@@ -13,7 +13,7 @@ public class Database {
                 String url = "jdbc:sqlite:C:\\Users\\usuario\\Desktop\\Grado_Superior_segundo\\sqlite3\\sqlite-tools-win32-x86-3330000\\notesDatabase.db";
                 Class.forName("org.sqlite.JDBC");
                 connection = DriverManager.getConnection(url);
-                // connection.createStatement().execute("PRAGMA foreign_keys = ON");
+                connection.createStatement().execute("PRAGMA foreign_keys = ON");
             }
             return connection;
         } catch (Exception e) {

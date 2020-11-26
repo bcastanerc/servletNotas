@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,6 +16,7 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous"
     />
+    
     <title>Create notes</title>
   </head>
   <body>
@@ -52,6 +56,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Create note</button>
+            <input type="hidden" name="_csrftoken" value="${csrfToken}">
         </form>
     </main>
     <!-- Boostrap script-->

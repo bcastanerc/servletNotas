@@ -24,6 +24,13 @@ public class userInfo extends HttpServlet {
         HttpSession session = req.getSession();
         User actualUser = userService.getUserFromId((int) session.getAttribute("user_id"));
 
+        if(req.getParameter("deleteAccount") != null){
+            userService.delete(actualUser.getId());
+            session.invalidate();
+            resp.sendRedirect(req.getContextPath()+"/login");
+            return;
+        }
+
         req.setAttribute("username", actualUser.getUsername());
         req.setAttribute("email", actualUser.getEmail());
 
@@ -58,4 +65,5 @@ public class userInfo extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/userInfo.jsp");
         dispatcher.forward(req, resp);
     }
+
 }

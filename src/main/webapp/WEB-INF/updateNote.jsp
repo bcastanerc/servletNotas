@@ -16,7 +16,7 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous"
     />
-    <title>Create notes</title>
+    <title>Update note</title>
   </head>
   <body>
   <header>
@@ -33,88 +33,51 @@
             <a class="nav-link" href="/userInfo">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-danger"  href="?logout">Log-Out</a>
+            <a class="nav-link text-danger" href="?logout">Log-Out</a>
           </li>
         </ul>
       </div>
     </nav>
   </header>
   <br><br>
-    <h1 class="display-2 d-flex justify-content-center">Your info</h1>
-     <main class="container">
-      <form method="POST" action="/userInfo">
-        <div class="form-group">
-
+    <h1 class="display-2 d-flex justify-content-center">Update Notes</h1>
+    <main class="container">
+      <form method="POST" action="/updateNote">
           <div class="form-group">
-          <label>Username</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="${username}"
-            name="username"
-          />
-
-          <label>Email address</label>
+              <label>Title of the note</label>
+              <input id="title" type="text" class="form-control" name="title" aria-describedby="basic-addon1" value = "${title}">
+          </div>
+          <div class="form-group">
+              <label>Text of the note</label>
+              <textarea class="form-control rounded-0" name="text" rows="20">${text}</textarea>
+              <style>textarea {resize: none; overflow: auto;}</style>
+          </div>
+          <button type="submit" class="btn btn-primary">submit edit</button>
+          <a href="/updateNote?id=${id}&deleteNote" class="btn btn-danger">Delete note</a>
+          <input type="hidden" name="id" value="${id}">
+          <input type="hidden" name="_csrftoken" value="${csrfToken}">
+      </form>
+      <form method="POST" action="/updateNote">
+        <div class="form-group">
+          <label style="margin-top: 10px;">Share This Note</label>
           <input
             type="email"
             class="form-control"
             aria-describedby="emailHelp"
-            placeholder="${email}"
-            name="email"
+            placeholder="Enter email"
+            name="emailToShare"
           />
-          
+          <small class="form-text text-muted"
+            >Introduce the email of the person to share</small
+          >
         </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="password"
-            name="password"
-          />
-
-          <div class="form-group">
-          <label> Confirm Password</label>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="password"
-            name="confirmPassword"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary">Share</button>
+        <input type="hidden" name="id" value="${id}">
         <input type="hidden" name="_csrftoken" value="${csrfToken}">
       </form>
-
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-        Delete Account
-      </button>
-
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              Your account will be deleted permanently. Are you sure?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-              <a href="/userInfo?deleteAccount" class="btn btn-danger">Yes</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <c:if test="${error eq true}">
-        <div class="alert alert-warning fade show">
-          <strong>Warning!</strong> Please enter valid data for the update.
+        <div style="margin-top: 20px;" class="alert alert-warning fade show">
+          <strong>Warning!</strong> You can't edit a note if you are not the owner.
           <button type="button" class="close" data-dismiss="alert"></button>
         </div>
       </c:if>

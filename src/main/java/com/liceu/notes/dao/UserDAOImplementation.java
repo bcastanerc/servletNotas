@@ -55,8 +55,20 @@ public class UserDAOImplementation implements UserDAO{
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(int id) {
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("delete from users where id = ?");
+            ps.setInt(1, id);
 
+            ps.execute();
+            ps.close();
+            Database.closeConnection();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
@@ -141,6 +153,29 @@ public class UserDAOImplementation implements UserDAO{
             }catch (Exception e){
                 e.printStackTrace();
             }
+        return null;
+    }
+
+    @Override
+    public boolean userOwnsNote(int user_id, int id_note) {
+                try {
+                    Connection c = Database.getConnection();
+                    assert c != null;
+
+                    PreparedStatement ps = c.prepareStatement("select * from notes where id = ? and user_id = ?");
+                    ps.setInt(1, id_note);
+                    ps.setInt(2, user_id);
+                    ResultSet rs = ps.executeQuery();
+
+                    return rs.next();
+                }catch (Exception e){
+                    e.printStackTrace();
+    }
+        return false;
+    }
+
+    @Override
+    public User getUserFromEmail(String email) {
         return null;
     }
 }

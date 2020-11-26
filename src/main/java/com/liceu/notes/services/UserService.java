@@ -64,11 +64,15 @@ public class UserService {
     userDAO.update(user);
     }
 
-    public void delete(User user){
-
+    public void delete(int id){
+        userDAO.delete(id);
     }
 
     public User getUserFromId(int id){
         return userDAO.getUserFromId(id);
+    }
+
+    public boolean userOwnsNote(int user_id, int id_note){
+        return userDAO.userOwnsNote(user_id, id_note);
     }
 }

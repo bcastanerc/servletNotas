@@ -34,7 +34,6 @@ public class login extends HttpServlet {
               HttpSession session = req.getSession();
               session.setAttribute("user_id", logedUSer.getId());
               resp.sendRedirect(req.getContextPath() + "/createNotes");
-
           }else{
               req.setAttribute("error", true);
               RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/login.jsp");

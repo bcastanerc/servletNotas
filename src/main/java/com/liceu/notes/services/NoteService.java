@@ -5,6 +5,9 @@ import com.liceu.notes.models.Note;
 
 import java.sql.SQLException;
 import java.util.List;
+import org.commonmark.node.*;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 public class NoteService {
     NoteDAOImplementation nd = new NoteDAOImplementation();
@@ -31,5 +34,9 @@ public class NoteService {
 
     public void update(Note note) throws SQLException {
         nd.update(note);
+    }
+
+    public void delete(int id){
+        nd.delete(id);
     }
 }

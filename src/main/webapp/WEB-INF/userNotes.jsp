@@ -2,6 +2,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="sanitize" class="com.liceu.notes.utils.sanitize"/>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,9 +17,29 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous"
     />
-    <title>Create notes</title>
+    <title>Your notes</title>
   </head>
-  <body style="background-color: #fffdd0">
+  <body>
+  <style>
+        .card{
+          width: 40%;
+          height: 250px;
+          margin: 20px;
+        }
+        .cdinner{
+          position: absolute;
+          bottom: 10px;
+        }
+        .cdinner .card-text{
+          margin: 5px 20px;
+        }
+        .intd{
+          margin-left: 10px;
+        }
+        .bmodal{
+          margin-left: 20px;
+        }
+  </style>
   <header>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark scrolling-navbar">
       <div class="collapse navbar-collapse" >
@@ -37,19 +58,24 @@
           </li>
         </ul>
         <div class="d-flex flex-row">
-          <div class="form-inline mr-auto">
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-          </div>
-          <div class="form-inline mr-auto my-0 ml-sm-2 ">
-            <select id="inputState" class="form-control">
-              <option name="titleSearch" selected>By title</option>
-              <option name="textSearch">By text</option>
-              <option name="expresionSearch">By expresion</option>
-              <option name="creationDateSearch">By creation date</option>
-              <option name="modificationDateSearch">By modification date</option>
-            </select>
-          </div>
-          <button href="#!" class="btn btn-outline-blue btn-md my-0 ml-sm-2 btn-light" type="submit">Search</button>
+          <form method="POST" action="/userNotes" class="d-flex flex-row">
+            <div class="form-inline mr-auto">
+              <input class="form-control" type="text" placeholder="Search" name="searchInput" aria-label="Search">
+            </div>
+            <div class="form-inline mr-auto my-0 ml-sm-2 ">
+                <select name="inputType" class="form-control">
+                  <option value="1" selected>By title</option>
+                  <option value="2">By text</option>
+                  <option value="3">By expresion</option>
+                  <option value="4">By creation date</option>
+                  <option value="5">By modification date</option>
+                </select>
+            </div>
+            <button href="#!" class="btn btn-outline-blue btn-md my-0 ml-sm-2 btn-light" type="submit">Search</button>
+          </form>
+          <button type="button" class="bmodal btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+            Delete Selected
+          </button>
         </div>
       </div>
     </nav>
@@ -57,25 +83,62 @@
   <br><br>
     <h1 class="display-2 d-flex justify-content-center">Your Notes</h1>
     <main class="container">
-      <div style="display: flex; flex-wrap: wrap; justify-content: space-around; width: 85%;">
-        <c:forEach var="n" items="${notes}">
-          <div class="card" style="width: 40%; height: 250px; margin-left: 45px; margin-top: 25px; margin-bottom: 25px;">
-           <div class="card-body">
-              <h5 class="card-title">${n.title}</h5>
-              <p class="card-text">${n.text}</p>
-              <div class="d-flex justify-content-around" style="position: absolute; bottom: 10px;">
-                <a href="/viewNote?id=${n.id}" class="btn btn-primary" value="${n.id}">View</a>
-                <p class="card-text" style="margin : 5px"><small class="text-muted">Last edit ${n.last_modification}</small></p>
+      <form method="POST" action="/userNotes">
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Selected Notes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                The selected notes will be deleted permanently. Are you sure?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-danger" data-dismiss="modal">yes</button>
               </div>
             </div>
           </div>
-        </c:forEach>
-      </div>
+        </div>
+        <div class="d-flex justify-content-between flex-wrap">
+          <c:forEach var="n" items="${notes}">
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">${sanitize.sanitizeNote(n.title)}</h5>
+                <p class="card-text">${sanitize.sanitizeNote(n.text)}</p>
+                <div class="cdinner d-flex justify-content-around">
+                  <a href="/viewNote?id=${n.id}" class="btn btn-primary btn-sm" value="${n.id}">View</a>
+                  <p class="card-text"><small class="text-muted">Last edit ${n.last_modification}</small></p>
+                  <p class="card-text">
+                  <label class="form-check-label"><small class="text-muted">Delete </small></label>
+                  <input type="checkbox" class="intd form-check-input" name="notesToDelete" value="${n.id}"></small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </c:forEach>
+        </div>
+      </form>
     </main>
     <!-- Boostrap script-->
     <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
   </body>

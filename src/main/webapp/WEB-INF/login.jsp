@@ -45,11 +45,11 @@
           />
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-         <a href="/register" class="my-0 ml-sm-2">If you don't have an account register first...</a>
+        <a href="/register" class="my-0 ml-sm-2">If you don't have an account register first...</a>
+        <input type="hidden" name="_csrftoken" value="${csrfToken}">
       </form>
        <c:if test="${error eq true}">
-      <br/>
-        <div class="alert alert-warning fade show">
+        <div style="margin-top: 20px;" class="alert alert-warning fade show">
           <strong>Warning!</strong> Please enter a valid email and password to log in. If you don't have an account <strong><a href="http://localhost:8080/register">register</a></strong> first.
           <button type="button" class="close" data-dismiss="alert"></button>
         </div>

@@ -57,8 +57,20 @@ public class NoteDAOImplementation implements NoteDAO{
     }
 
     @Override
-    public void delete(Note note) {
+    public void delete(int id) {
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("delete from notes where id = ?");
+            ps.setInt(1, id);
 
+            ps.execute();
+            ps.close();
+            Database.closeConnection();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
@@ -76,7 +88,7 @@ public class NoteDAOImplementation implements NoteDAO{
             Database.closeConnection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            System.out.println("Error updateNotes");
+            System.out.println("Error update Notes");
         }
     }
 
@@ -101,7 +113,6 @@ public class NoteDAOImplementation implements NoteDAO{
             int user_id = rs.getInt("user_id");
 
             Note noteByID = new Note(id, title, text, creation_date, last_modification, user_id);
-
 
             rs.close();
             ps.close();
