@@ -176,6 +176,25 @@ public class UserDAOImplementation implements UserDAO{
 
     @Override
     public User getUserFromEmail(String email) {
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("select * from users where email = ?");
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            int id = rs.getInt("id");
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+
+            rs.close();
+            ps.close();
+            Database.closeConnection();
+            return new User(id, email, username, password);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 }

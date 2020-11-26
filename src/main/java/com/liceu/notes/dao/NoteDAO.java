@@ -13,4 +13,5 @@ public interface NoteDAO {
     void share(Note note);
     Note searchById(int id);
     Note searchByTextString(String text);
+    void shareNoteToUserById(int id_shared_user, int id_note);
 }

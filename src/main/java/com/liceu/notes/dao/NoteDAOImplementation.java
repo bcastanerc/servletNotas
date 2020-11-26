@@ -128,4 +128,22 @@ public class NoteDAOImplementation implements NoteDAO{
     public Note searchByTextString(String text) {
         return null;
     }
+
+    @Override
+    public void shareNoteToUserById(int id_shared_user, int id_note) {
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("insert into shared_note (id_shared_user, id_note) values(?,?)");
+            ps.setInt(1, id_shared_user);
+            ps.setInt(2, id_note);
+            ps.execute();
+
+            ps.close();
+            Database.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error share note");
+        }
+    }
 }

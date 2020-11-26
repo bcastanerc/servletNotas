@@ -75,4 +75,12 @@ public class UserService {
     public boolean userOwnsNote(int user_id, int id_note){
         return userDAO.userOwnsNote(user_id, id_note);
     }
+
+    public User getUserFromEmail(String email){
+        return userDAO.getUserFromEmail(email);
+    }
+
+    public boolean isEmailUsed(String email){
+        return userDAO.isEmailNotUsed(email);
+    }
 }

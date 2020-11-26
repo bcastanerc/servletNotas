@@ -19,7 +19,6 @@ public class sanitize {
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         PolicyFactory policy = new HtmlPolicyBuilder().toFactory();
         String sanitizedText = policy.sanitize(renderer.render(document));
-        System.out.println("Sanitize note: " + sanitizedText);
         return sanitizedText;
     }
 

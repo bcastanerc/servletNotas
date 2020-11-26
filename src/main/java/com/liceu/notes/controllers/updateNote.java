@@ -2,6 +2,7 @@ package com.liceu.notes.controllers;
 
 
 import com.liceu.notes.models.Note;
+import com.liceu.notes.models.User;
 import com.liceu.notes.services.NoteService;
 import com.liceu.notes.services.UserService;
 
@@ -51,11 +52,17 @@ public class updateNote extends HttpServlet {
         NoteService noteService = new NoteService();
         UserService userService = new UserService();
 
-        /*if (req.getParameter("emailToShare") != null && userService.isEmailUsed(req.getParameter("emailToShare"))){
-           int id_shared_user = Integer.parseInt(req.getParameter("id"));
-        }*/
+        String emailToShare = req.getParameter("emailToShare");
+        int id_note = Integer.parseInt(req.getParameter("id"));
 
-        if (userService.userOwnsNote((int) session.getAttribute("user_id"),Integer.parseInt(req.getParameter("id")))){
+        if (emailToShare != null && userService.getUserFromEmail(emailToShare) != null){
+            User userToShare = userService.getUserFromEmail(emailToShare);
+            noteService.shareNoteToUserById(userToShare.getId(), id_note);
+            resp.sendRedirect(req.getContextPath()+"/userNotes");
+            return;
+        }
+
+        if (userService.userOwnsNote((int) session.getAttribute("user_id"),id_note) && emailToShare == null){
             try {
                 noteService.update(
                         new Note(Integer.parseInt(

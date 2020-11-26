@@ -9,9 +9,7 @@ public class markdown {
         Parser parser = Parser.builder().build();
         Node document = parser.parse(text);
         HtmlRenderer renderer = HtmlRenderer.builder().build();
-        String finalText = renderer.render(document);
-        System.out.println("markdown to html note: " + finalText);
-        return finalText;
+        return renderer.render(document);
     }
 
 }
