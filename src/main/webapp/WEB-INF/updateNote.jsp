@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -19,27 +16,7 @@
     <title>Update note</title>
   </head>
   <body>
-  <header>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark scrolling-navbar">
-      <div class="collapse navbar-collapse" >
-        <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="/createNotes">Create Notes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/userNotes">Your Notes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/userInfo">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-danger" href="?logout">Log-Out</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-  <br><br>
+  <jsp:directive.include file="./nav.jsp" />
     <h1 class="display-2 d-flex justify-content-center">Update Notes</h1>
     <main class="container">
       <form method="POST" action="/updateNote">

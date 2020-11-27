@@ -2,6 +2,7 @@ package com.liceu.notes.controllers;
 
 import com.liceu.notes.models.Note;
 import com.liceu.notes.services.NoteService;
+import com.liceu.notes.services.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,33 +31,51 @@ public class userNotes extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int type = Integer.parseInt(req.getParameter("inputType"));
-        String input = req.getParameter("searchInput");
-        System.out.println(type);
+
         HttpSession session = req.getSession();
         NoteService noteService = new NoteService();
 
-        List<Note> notes = noteService.cutNotes(noteService.getAllFromId((Integer) session.getAttribute("user_id")));
-        List<Note> filteredNotes = new ArrayList<>();
+        if(req.getParameter("inputType") != null){
+            int type = Integer.parseInt(req.getParameter("inputType"));
+            String input = req.getParameter("searchInput");
 
-        switch (type){
-            case 1:
-                // Busqueda titulo
-                for (Note n : notes) if (n.getTitle().contains(input)) filteredNotes.add(n);
-                break;
-            case 2:
-                // Busqueda texto
-                for (Note n : notes) if (n.getText().contains(input)) filteredNotes.add(n);
-                break;
-            case 3:
-                // Busqueda expresion
-                break;
-            case 4:
-                // Busqueda titulo
-                break;
+            List<Note> notes = noteService.getAllFromId((Integer) session.getAttribute("user_id"));
+            List<Note> filteredNotes = new ArrayList<>();
+
+            switch (type){
+                case 1:
+                    // Busqueda titulo
+                    for (Note n : notes) if (n.getTitle().contains(input)) filteredNotes.add(n);
+                    break;
+                case 2:
+                    // Busqueda texto
+                    for (Note n : notes) if (n.getText().contains(input)) filteredNotes.add(n);
+                    break;
+                case 3:
+                    // Busqueda expresion
+                    break;
+                case 4:
+                    // Busqueda titulo
+                    break;
+            }
+
         }
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/userNotes.jsp");
-        dispatcher.forward(req, resp);
+        String[] ids = req.getParameterValues("notesToDelete[]");
+        if (ids != null){
+            UserService userService = new UserService();
+            int user_id = (int) session.getAttribute("user_id");
+            for (String id : ids) {
+                if (userService.userOwnsNote(user_id, Integer.parseInt(id))) {
+                    noteService.delete(Integer.parseInt(id));
+                    System.out.println("borrado nota: " + Integer.parseInt(id));
+                } else {
+                    noteService.deleteSharedNote(user_id, Integer.parseInt(id));
+                    System.out.println("borrado compartir nota: " + Integer.parseInt(id));
+                }
+
+            }
+        }
+        resp.sendRedirect(req.getContextPath() + "/userNotes");
     }
 }

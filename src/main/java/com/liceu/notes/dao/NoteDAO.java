@@ -2,7 +2,6 @@ package com.liceu.notes.dao;
 
 import com.liceu.notes.models.Note;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface NoteDAO {
@@ -14,4 +13,5 @@ public interface NoteDAO {
     Note searchById(int id);
     Note searchByTextString(String text);
     void shareNoteToUserById(int id_shared_user, int id_note);
+    void deleteSharedNote(int id_shared_user, int id_note);
 }

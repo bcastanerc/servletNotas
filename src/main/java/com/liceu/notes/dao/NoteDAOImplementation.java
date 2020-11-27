@@ -146,4 +146,21 @@ public class NoteDAOImplementation implements NoteDAO{
             System.out.println("Error share note");
         }
     }
+
+    @Override
+    public void deleteSharedNote(int id_shared_user, int id_note) {
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("delete from shared_note where id_shared_user = ? and id_note = ?");
+            ps.setInt(1, id_shared_user);
+            ps.setInt(2, id_note);
+            ps.execute();
+            ps.close();
+            Database.closeConnection();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

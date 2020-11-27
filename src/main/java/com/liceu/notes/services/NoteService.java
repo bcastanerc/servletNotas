@@ -40,4 +40,8 @@ public class NoteService {
     public void shareNoteToUserById(int id_shared_user, int id_note){
         nd.shareNoteToUserById(id_shared_user, id_note);
     }
+
+    public void deleteSharedNote(int id_shared_user, int id_note){
+        nd.deleteSharedNote(id_shared_user, id_note);
+    }
 }

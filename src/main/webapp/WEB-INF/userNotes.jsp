@@ -40,8 +40,8 @@
           margin-left: 20px;
         }
   </style>
-  <header>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark scrolling-navbar">
+  <header class="mb-1">
+    <nav class="navbar stiky navbar-expand-lg navbar-dark bg-dark scrolling-navbar">
       <div class="collapse navbar-collapse" >
         <ul class="navbar-nav mr-auto">
         <li class="nav-item">
@@ -75,36 +75,38 @@
           </form>
           <button type="button" class="bmodal btn btn-danger" data-toggle="modal" data-target="#exampleModal">
             Delete Selected
-          </button>
+        </button>
         </div>
       </div>
     </nav>
   </header>
-  <br><br>
     <h1 class="display-2 d-flex justify-content-center">Your Notes</h1>
     <main class="container">
       <form method="POST" action="/userNotes">
-        
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Selected Notes</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                The selected notes will be deleted permanently. Are you sure?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="submit" class="btn btn-danger" data-dismiss="modal">yes</button>
-              </div>
+    
+         <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Your account will be deleted permanently. Are you sure?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <button type="submit" class="btn btn-danger" data-toggle="modal">
+            Yes
+        </button>
             </div>
           </div>
         </div>
+      </div>
+
         <div class="d-flex justify-content-between flex-wrap">
           <c:forEach var="n" items="${notes}">
             <div class="card">
@@ -116,13 +118,14 @@
                   <p class="card-text"><small class="text-muted">Last edit ${n.last_modification}</small></p>
                   <p class="card-text">
                   <label class="form-check-label"><small class="text-muted">Delete </small></label>
-                  <input type="checkbox" class="intd form-check-input" name="notesToDelete" value="${n.id}"></small>
+                  <input type="checkbox" class="intd form-check-input" name="notesToDelete[]" value="${n.id}"></small>
                   </p>
                 </div>
               </div>
             </div>
           </c:forEach>
         </div>
+        <input type="hidden" name="_csrftoken" value="${csrfToken}">
       </form>
     </main>
     <!-- Boostrap script-->

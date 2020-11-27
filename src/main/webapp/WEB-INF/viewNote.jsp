@@ -22,26 +22,7 @@
     <title>View note</title>
   </head>
   <body>
-  <header>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark scrolling-navbar">
-      <div class="collapse navbar-collapse" >
-        <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="/createNotes">Create Notes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/userNotes">Your Notes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/userInfo">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-danger" href="?logout">Log-Out</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+  <jsp:directive.include file="./nav.jsp" />
     <main style class="container">
       <h2 style="margin-top: 40px;">${sanitize.sanitizeNote(title)}</h2>
       <div style="margin-top: 40px; margin-bottom: 40px;">
