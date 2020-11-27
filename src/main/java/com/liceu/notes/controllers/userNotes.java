@@ -66,13 +66,8 @@ public class userNotes extends HttpServlet {
             UserService userService = new UserService();
             int user_id = (int) session.getAttribute("user_id");
             for (String id : ids) {
-                if (userService.userOwnsNote(user_id, Integer.parseInt(id))) {
-                    noteService.delete(Integer.parseInt(id));
-                    System.out.println("borrado nota: " + Integer.parseInt(id));
-                } else {
-                    noteService.deleteSharedNote(user_id, Integer.parseInt(id));
-                    System.out.println("borrado compartir nota: " + Integer.parseInt(id));
-                }
+                if (userService.userOwnsNote(user_id, Integer.parseInt(id))) noteService.delete(Integer.parseInt(id));
+                else noteService.deleteSharedNote(user_id, Integer.parseInt(id));
 
             }
         }
