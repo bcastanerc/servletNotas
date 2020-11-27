@@ -1,6 +1,7 @@
 package com.liceu.notes.dao;
 
 import com.liceu.notes.models.Note;
+import com.liceu.notes.models.User;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface NoteDAO {
     Note searchByTextString(String text);
     void shareNoteToUserById(int id_shared_user, int id_note);
     void deleteSharedNote(int id_shared_user, int id_note);
+    List<String> getAllSharedUsersFromIdNote(int id_note);
 }

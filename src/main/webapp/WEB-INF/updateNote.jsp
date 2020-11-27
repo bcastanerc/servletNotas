@@ -34,9 +34,10 @@
           <input type="hidden" name="id" value="${id}">
           <input type="hidden" name="_csrftoken" value="${csrfToken}">
       </form>
-      <form method="POST" action="/updateNote">
-        <div class="form-group">
-          <label style="margin-top: 10px;">Share This Note</label>
+      <div class="d-flex justify-content-around mt-4">
+         <form method="POST" action="/updateNote" class="w-50">
+          <div class="form-group">
+          <label style="margin-top: 10px;"><b>Share This Note</b></label>
           <input
             type="email"
             class="form-control"
@@ -48,18 +49,42 @@
             >Introduce the email of the person to share</small
           >
         </div>
-        <button type="submit" class="btn btn-primary">Share</button>
-        <input type="hidden" name="id" value="${id}">
-        <input type="hidden" name="_csrftoken" value="${csrfToken}">
-      </form>
+          <label style="margin-right: 20px;">Share</label>
+          <input type="radio" checked="checked" class="intd form-check-input" name="actionType" value="share">
+          <label style="margin-right: 20px;"><small>Un-Share</small></label>
+          <input type="radio" class="intd form-check-input" name="actionType" value="delete">
+          <button type="submit" class="btn btn-primary ml-4">Share</button>
+          <input type="hidden" name="id" value="${id}">
+          <input type="hidden" name="_csrftoken" value="${csrfToken}">
+        </form>
+        <table class="table table-striped w-25">
+          <thead>
+            <tr>
+              <th>Shared Users</th>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="u" items="${users}">
+              <tr>
+                <td>${u}</td>
+              </tr>
+            </c:forEach>
+          </tbody>
+        </table>
+      </div>
       <c:if test="${error eq true}">
         <div style="margin-top: 20px;" class="alert alert-warning fade show">
-          <strong>Warning!</strong> You can't edit a note if you are not the owner.
+          <strong>Warning!</strong> You can't edit a note if you are not the owner and you can't share a note to a non-existing user.
           <button type="button" class="close" data-dismiss="alert"></button>
         </div>
       </c:if>
     </main>
     <!-- Boostrap script-->
+    <style>
+      td, th {
+        text-align: center;
+      }
+    </style>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

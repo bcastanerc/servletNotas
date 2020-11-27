@@ -1,6 +1,7 @@
 package com.liceu.notes.dao;
 
 import com.liceu.notes.models.Note;
+import com.liceu.notes.models.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -161,6 +162,29 @@ public class NoteDAOImplementation implements NoteDAO{
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<String> getAllSharedUsersFromIdNote(int id_note) {
+        List<String> userMail = new ArrayList<>();
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("select * from(select email from users where id in(select id_shared_user from shared_note where id_note = ?))");
+            ps.setInt(1, id_note);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String email = rs.getString("email");
+               userMail.add(email);
+            }
+            rs.close();
+            ps.close();
+            Database.closeConnection();
+            return userMail;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
         }
     }
 }

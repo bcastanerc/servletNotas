@@ -5,6 +5,7 @@ import com.google.common.cache.Cache;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URL;
@@ -23,8 +24,9 @@ public class logOutFilter implements Filter {
         if (req.getParameter("logout") != null){
             HttpSession session = ((HttpServletRequest) req).getSession();
             session.invalidate();
-            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/login.jsp");
-            dispatcher.forward(req, resp);
+
+            HttpServletResponse res = (HttpServletResponse) resp;
+            res.sendRedirect(((HttpServletRequest) req).getContextPath()+"/userNotes");
             return;
         }
         RequestDispatcher dispatcher = req.getRequestDispatcher(url.getPath());

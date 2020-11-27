@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 
 @WebServlet(value = "/updateNote")
@@ -37,6 +39,11 @@ public class updateNote extends HttpServlet {
             req.setAttribute("text", actualNote.getText());
             req.setAttribute("id", actualNote.getId());
 
+            List<String> emails = noteService.getAllSharedUsersFromIdNote(actualNote.getId());
+            System.out.println(Arrays.toString(emails.toArray()));
+
+            req.setAttribute("users", emails.toArray());
+
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/updateNote.jsp");
             dispatcher.forward(req, resp);
             return;
@@ -57,7 +64,15 @@ public class updateNote extends HttpServlet {
 
         if (emailToShare != null && userService.getUserFromEmail(emailToShare) != null){
             User userToShare = userService.getUserFromEmail(emailToShare);
-            noteService.shareNoteToUserById(userToShare.getId(), id_note);
+
+            if (req.getParameter("actionType") != null){
+                if(req.getParameter("actionType").equals("share")){
+                    noteService.shareNoteToUserById(userToShare.getId(), id_note);
+                }
+                if (req.getParameter("actionType").equals("delete")){
+                    noteService.deleteSharedNote(userToShare.getId(), id_note);
+                }
+            }
             resp.sendRedirect(req.getContextPath()+"/userNotes");
             return;
         }
