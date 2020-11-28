@@ -24,6 +24,10 @@
       <div style="margin-top: 40px; margin-bottom: 40px;">
         ${markdown.renderNote(text)}
       </div>
+      <div class="mb-2">
+        <small class="text-muted"><b>Owner:</b> ${ownerEmail}</small>
+        <small class="text-muted"><b>Creation:</b> ${creation_date}, <b>Last Edit:</b> ${last_modification}</small>
+      </div>
       <c:if test="${owner eq true}">
         <a href="/updateNote?id=${id}" class="btn btn-primary">Edit</a>
       </c:if>

@@ -33,6 +33,9 @@ public class viewNote extends HttpServlet {
             req.setAttribute("title", actualNote.getTitle());
             req.setAttribute("text", actualNote.getText());
             req.setAttribute("id", actualNote.getId());
+            req.setAttribute("creation_date", actualNote.getCreation_date());
+            req.setAttribute("last_modification", actualNote.getLast_modification());
+            req.setAttribute("ownerEmail", userService.getUserFromId(actualNote.getUser_id()).getEmail());
             req.setAttribute("owner", userService.userOwnsNote(userID, actualNote.getId()));
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/viewNote.jsp");
