@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -20,7 +17,7 @@
   </head>
   <body>
   <jsp:directive.include file="./nav.jsp" />
-    <h1 class="display-2 d-flex justify-content-center">Your info</h1>
+    <h1 class="display-3 d-flex justify-content-center">Your info</h1>
      <main class="container">
       <form method="POST" action="/userInfo">
         <div class="form-group">

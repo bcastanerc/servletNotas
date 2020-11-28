@@ -1,10 +1,6 @@
 <!DOCTYPE html>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="sanitize" class="com.liceu.notes.utils.sanitize"/>
 <jsp:useBean id="markdown" class="com.liceu.notes.utils.markdown"/>
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />

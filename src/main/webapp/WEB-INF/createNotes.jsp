@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -21,7 +18,7 @@
   </head>
   <body>
   <jsp:directive.include file="./nav.jsp" />
-    <h1 class="display-2 d-flex justify-content-center">Create Notes</h1>
+    <h1 class="display-3 d-flex justify-content-center">Create Notes</h1>
     <main class="container">
         <form method="POST" action="/createNotes">
             <div class="form-group">
@@ -38,6 +35,12 @@
             <button type="submit" class="btn btn-primary">Create note</button>
             <input type="hidden" name="_csrftoken" value="${csrfToken}">
         </form>
+        <c:if test="${error eq true}">
+          <div style="margin-top: 20px;" class="alert alert-warning fade show">
+            <strong>Warning!</strong> You can't Create a note with a title of more than 150 charactes.
+            <button type="button" class="close" data-dismiss="alert"></button>
+          </div>
+        </c:if>
     </main>
     <!-- Boostrap script-->
     <script

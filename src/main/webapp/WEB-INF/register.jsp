@@ -15,7 +15,7 @@
     <title>Registration Page</title>
   </head>
   <body>
-    <h1 class="display-2 d-flex justify-content-center">Register</h1>
+    <h1 class="display-3 d-flex justify-content-center">Register</h1>
     <main class="container">
       <form method="POST" action="/register">
         <!-- Email -->

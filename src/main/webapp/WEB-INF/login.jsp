@@ -19,7 +19,7 @@
     <title>Login Page</title>
   </head>
   <body>
-    <h1 class="display-2 d-flex justify-content-center">Login</h1>
+    <h1 class="display-3 d-flex justify-content-center">Login</h1>
     <main class="container">
       <form method="POST" action="/login">
         <div class="form-group">

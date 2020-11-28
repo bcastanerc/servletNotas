@@ -26,14 +26,20 @@ public class createNotes extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("title");
         String text = req.getParameter("text");
-        try{
-            HttpSession session = req.getSession();
 
-            NoteService noteService = new NoteService();
-            noteService.add(new Note(0,title,text,null,null, (Integer) session.getAttribute("user_id")));
+        if (title.length() > 149) {
+            req.setAttribute("error", true);
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/createNotes.jsp");
             dispatcher.forward(req, resp);
-        }catch (Exception e){
+        }
+
+        try {
+        HttpSession session = req.getSession();
+        NoteService noteService = new NoteService();
+        noteService.add(new Note(0,title,text,null,null, (Integer) session.getAttribute("user_id")));
+        resp.sendRedirect(req.getContextPath() + "/userNotes");
+
+        } catch (Exception e){
             e.printStackTrace();
             System.out.println("error en createNotes");
         }

@@ -64,7 +64,7 @@
             </div>
             <div class="form-inline mr-auto my-0 ml-sm-2 ">
                 <select name="inputType" class="form-control">
-                  <option value="1" selected>By title</option>
+                  <option value="1" selected="selected">By title</option>
                   <option value="2">By text</option>
                   <option value="3">By expresion</option>
                   <option value="4">By creation date</option>
@@ -72,6 +72,7 @@
                 </select>
             </div>
             <button href="#!" class="btn btn-outline-blue btn-md my-0 ml-sm-2 btn-light" type="submit">Search</button>
+            <input type="hidden" name="_csrftoken" value="${csrfToken}">
           </form>
           <button type="button" class="bmodal btn btn-danger" data-toggle="modal" data-target="#exampleModal">
             Delete Selected
@@ -106,7 +107,6 @@
           </div>
         </div>
       </div>
-
         <div class="d-flex justify-content-between flex-wrap">
           <c:forEach var="n" items="${notes}">
             <div class="card">

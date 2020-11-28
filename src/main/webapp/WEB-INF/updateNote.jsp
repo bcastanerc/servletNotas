@@ -17,7 +17,7 @@
   </head>
   <body>
   <jsp:directive.include file="./nav.jsp" />
-    <h1 class="display-2 d-flex justify-content-center">Update Notes</h1>
+    <h1 class="display-3 d-flex justify-content-center">Update Notes</h1>
     <main class="container">
       <form method="POST" action="/updateNote">
           <div class="form-group">

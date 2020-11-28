@@ -48,9 +48,7 @@ public class updateNote extends HttpServlet {
             dispatcher.forward(req, resp);
             return;
         }
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/userNotes.jsp");
-        dispatcher.forward(req, resp);
+        resp.sendRedirect(req.getContextPath()+"/userNotes");
     }
 
     @Override

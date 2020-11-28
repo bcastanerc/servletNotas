@@ -102,10 +102,11 @@ public class UserDAOImplementation implements UserDAO{
 
             ResultSet rs = ps.executeQuery();
             user = new User( rs.getInt("id"),rs.getString("email"), rs.getString("username"), rs.getString("password"));
-
             rs.close();
             ps.close();
             Database.closeConnection();
+
+            return user;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -166,7 +167,6 @@ public class UserDAOImplementation implements UserDAO{
                     ps.setInt(1, id_note);
                     ps.setInt(2, user_id);
                     ResultSet rs = ps.executeQuery();
-
                     return rs.next();
                 }catch (Exception e){
                     e.printStackTrace();

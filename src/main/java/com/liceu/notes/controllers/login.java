@@ -30,7 +30,7 @@ public class login extends HttpServlet {
         try {
           String encryptedPassword = userService.encryptPassword(password);
           User logedUSer = userService.getFromLogin(email, encryptedPassword);
-          if (logedUSer !=null){
+          if (logedUSer != null){
               HttpSession session = req.getSession();
               session.setAttribute("user_id", logedUSer.getId());
               resp.sendRedirect(req.getContextPath() + "/createNotes");

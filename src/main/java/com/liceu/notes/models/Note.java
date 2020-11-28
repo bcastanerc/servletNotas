@@ -1,14 +1,16 @@
 package com.liceu.notes.models;
 
+import java.util.Date;
+
 public class Note {
     private int id;
     private String title;
     private String text;
-    private String creation_date;
-    private String last_modification;
+    private Date creation_date;
+    private Date last_modification;
     private int user_id;
 
-    public Note(int id, String title, String text, String creation_date, String last_modification, int user_id) {
+    public Note(int id, String title, String text, Date creation_date, Date last_modification, int user_id) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -41,19 +43,19 @@ public class Note {
         this.text = text;
     }
 
-    public String getCreation_date() {
+    public Date getCreation_date() {
         return creation_date;
     }
 
-    public void setCreation_date(String creation_date) {
+    public void setCreation_date(Date creation_date) {
         this.creation_date = creation_date;
     }
 
-    public String getLast_modification() {
+    public Date getLast_modification() {
         return last_modification;
     }
 
-    public void setLast_modification(String last_modification) {
+    public void setLast_modification(Date last_modification) {
         this.last_modification = last_modification;
     }
 

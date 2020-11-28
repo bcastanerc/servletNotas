@@ -1,9 +1,11 @@
 package com.liceu.notes.dao;
 
 import com.liceu.notes.models.Note;
-import com.liceu.notes.models.User;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,9 @@ public class NoteDAOImplementation implements NoteDAO{
                 String creation_date = rs.getString("creation_date");
                 String last_modification = rs.getString("last_modification");
 
-                notes.add(new Note(id, title, text, creation_date, last_modification, user_id));
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                notes.add(new Note(id, title, text, df.parse(creation_date), df.parse(last_modification), user_id));
             }
             rs.close();
             ps.close();
@@ -113,13 +117,15 @@ public class NoteDAOImplementation implements NoteDAO{
             String last_modification = rs.getString("last_modification");
             int user_id = rs.getInt("user_id");
 
-            Note noteByID = new Note(id, title, text, creation_date, last_modification, user_id);
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            Note noteByID = new Note(id, title, text, df.parse(creation_date), df.parse(last_modification), user_id);
 
             rs.close();
             ps.close();
             Database.closeConnection();
             return noteByID;
-        } catch (SQLException throwables) {
+        } catch (SQLException | ParseException throwables) {
             throwables.printStackTrace();
             return null;
         }

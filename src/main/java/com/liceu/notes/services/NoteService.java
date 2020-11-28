@@ -19,7 +19,7 @@ public class NoteService {
 
     public List<Note> cutNotes(List<Note> notes){
         for(Note n : notes){
-            if(n.getText().length() > 160) n.setText(n.getText().substring(0,160) + "...");
+            if(n.getText().length() > 230) n.setText(n.getText().substring(0,230) + "...");
             if(n.getTitle().length() > 37) n.setTitle(n.getTitle().substring(0,37) + "...");
         }
         return notes;
@@ -48,4 +48,5 @@ public class NoteService {
     public List<String> getAllSharedUsersFromIdNote(int id_note) {
      return nd.getAllSharedUsersFromIdNote(id_note);
     }
+
 }
