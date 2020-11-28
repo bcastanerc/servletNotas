@@ -3,7 +3,6 @@ package com.liceu.notes.services;
 import com.liceu.notes.dao.NoteDAOImplementation;
 import com.liceu.notes.models.Note;
 
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class NoteService {
         return nd.searchById(id);
     }
 
-    public void update(Note note) throws SQLException {
+    public void update(Note note) {
         nd.update(note);
     }
 
