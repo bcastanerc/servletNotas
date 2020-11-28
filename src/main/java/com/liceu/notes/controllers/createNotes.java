@@ -27,8 +27,10 @@ public class createNotes extends HttpServlet {
         String title = req.getParameter("title");
         String text = req.getParameter("text");
 
+        // En la base de datos el title es un varchar de 150 (se puede modificar a text si hiciera falta)
         if (title.length() > 149) {
             req.setAttribute("error", true);
+            req.setAttribute("csrfToken", req.getParameter("_csrftoken"));
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/createNotes.jsp");
             dispatcher.forward(req, resp);
         }

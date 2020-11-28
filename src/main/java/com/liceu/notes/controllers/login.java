@@ -33,9 +33,10 @@ public class login extends HttpServlet {
           if (logedUSer != null){
               HttpSession session = req.getSession();
               session.setAttribute("user_id", logedUSer.getId());
-              resp.sendRedirect(req.getContextPath() + "/createNotes");
+              resp.sendRedirect(req.getContextPath() + "/userNotes");
           }else{
               req.setAttribute("error", true);
+              req.setAttribute("csrfToken", req.getParameter("_csrftoken"));
               RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/login.jsp");
               dispatcher.forward(req, resp);
           }

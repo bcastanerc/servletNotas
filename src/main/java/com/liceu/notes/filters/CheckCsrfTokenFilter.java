@@ -14,13 +14,15 @@ public class CheckCsrfTokenFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
+        HttpServletResponse resp = (HttpServletResponse) servletResponse;
         HttpSession session = req.getSession();
 
         if (req.getMethod().equalsIgnoreCase("POST")) {
             String tokenFromRequest = req.getParameter("_csrftoken");
             Cache<String, Boolean> tokenCache = (Cache<String, Boolean>) session.getAttribute("tokenCache");
             if ((tokenFromRequest == null) || (tokenCache == null) || (tokenCache.getIfPresent(tokenFromRequest) == null)) {
-                throw new ServletException("Error CSRF");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/error.jsp");
+                dispatcher.forward(req, resp);
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);

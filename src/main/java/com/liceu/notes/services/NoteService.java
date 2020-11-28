@@ -22,6 +22,11 @@ public class NoteService {
         nd.add(note);
     }
 
+    /**
+     * Cuts the note text and title to the maximum size of the note to a better display.
+     * @param notes Notes of the user.
+     * @return the same notes but with max of characters.
+     */
     public List<Note> cutNotes(List<Note> notes){
         for(Note n : notes){
             if(n.getText().length() > 230) n.setText(n.getText().substring(0,230) + "...");
@@ -54,6 +59,17 @@ public class NoteService {
      return nd.getAllSharedUsersFromIdNote(id_note);
     }
 
+    public boolean isNoteSharedToUser(int id_shared_user, int id_note) {
+        return nd.isNoteSharedToUser(id_shared_user, id_note);
+    }
+
+    /**
+     * This will filter the given notes by type matching the input.
+     * @param notes All the notes of the user.
+     * @param input search input (title, content...).
+     * @param type the type of the search.
+     * @return filtered list of notes.
+     */
     public List<Note> filterNotes(List<Note> notes, String input, int type){
         List<Note> filteredNotes = new ArrayList<>();
         switch (type){
@@ -79,9 +95,7 @@ public class NoteService {
                     for (Note n : notes) {
                         SimpleDateFormat formatter5 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date1 = formatter5.parse(input);
-                        if (n.getCreation_date().after(date1)){
-                            filteredNotes.add(n);
-                        }
+                        if (n.getCreation_date().after(date1)) filteredNotes.add(n);
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -94,9 +108,7 @@ public class NoteService {
                         SimpleDateFormat formatter5 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date1 = formatter5.parse(input);
                         System.out.println("Date" + date1.toString());
-                        if (n.getLast_modification().after(date1)){
-                            filteredNotes.add(n);
-                        }
+                        if (n.getLast_modification().after(date1))filteredNotes.add(n);
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();

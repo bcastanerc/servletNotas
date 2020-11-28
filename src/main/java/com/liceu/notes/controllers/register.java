@@ -43,6 +43,7 @@ public class register extends HttpServlet {
             }
         }else{
             req.setAttribute("error", true);
+            req.setAttribute("csrfToken", req.getParameter("_csrftoken"));
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/register.jsp");
             dispatcher.forward(req, resp);
         }

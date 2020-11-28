@@ -76,24 +76,20 @@ public class updateNote extends HttpServlet {
         }
 
         if (userService.userOwnsNote((int) session.getAttribute("user_id"),id_note) && emailToShare == null){
-            try {
-                noteService.update(
-                        new Note(Integer.parseInt(
-                                req.getParameter("id")),
-                                req.getParameter("title"),
-                                req.getParameter("text"),
-                                null,null,
-                                (Integer) session.getAttribute("user_id"))
-                );
-                resp.sendRedirect(req.getContextPath()+"/userNotes");
-                return;
+            noteService.update(
+                    new Note(Integer.parseInt(
+                            req.getParameter("id")),
+                            req.getParameter("title"),
+                            req.getParameter("text"),
+                            null,null,
+                            (Integer) session.getAttribute("user_id"))
+            );
+            resp.sendRedirect(req.getContextPath()+"/userNotes");
+            return;
 
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                System.out.println("error en POST viewNotes");
-            }
         }
         req.setAttribute("error", true);
+        req.setAttribute("csrfToken", req.getParameter("_csrftoken"));
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/updateNote.jsp");
         dispatcher.forward(req, resp);
     }

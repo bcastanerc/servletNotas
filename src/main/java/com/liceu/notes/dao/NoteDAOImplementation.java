@@ -193,4 +193,20 @@ public class NoteDAOImplementation implements NoteDAO{
             return null;
         }
     }
+
+    @Override
+    public boolean isNoteSharedToUser(int id_shared_user, int id_note) {
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("select * from shared_note where id_shared_user = ? and id_note = ?");
+            ps.setInt(1, id_shared_user);
+            ps.setInt(2, id_note);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

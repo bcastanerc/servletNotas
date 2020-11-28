@@ -90,7 +90,7 @@
       </div>
 
       <c:if test="${error eq true}">
-        <div class="alert alert-warning fade show">
+        <div class="alert alert-warning fade show mt-2">
           <strong>Warning!</strong> Please enter valid data for the update.
           <button type="button" class="close" data-dismiss="alert"></button>
         </div>

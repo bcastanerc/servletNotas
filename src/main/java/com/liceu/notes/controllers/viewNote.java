@@ -18,14 +18,18 @@ import java.io.IOException;
 public class viewNote extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("id") != null){
-            NoteService noteService = new NoteService();
-            UserService userService = new UserService();
 
-            HttpSession session = req.getSession();
-            int userID = (int) session.getAttribute("user_id");
+        NoteService noteService = new NoteService();
+        UserService userService = new UserService();
 
-            Note actualNote = noteService.searchById(Integer.parseInt(req.getParameter("id")));
+        HttpSession session = req.getSession();
+        int userID = (int) session.getAttribute("user_id");
+        int noteID = Integer.parseInt(req.getParameter("id"));
+
+        // Solo podrá ver la nota si es el propietario o se le compartió, no se puede entrar por URL.
+        if (req.getParameter("id") != null && (userService.userOwnsNote(userID,noteID) || noteService.isNoteSharedToUser(userID,noteID))){
+
+            Note actualNote = noteService.searchById(noteID);
             req.setAttribute("title", actualNote.getTitle());
             req.setAttribute("text", actualNote.getText());
             req.setAttribute("id", actualNote.getId());
@@ -35,7 +39,6 @@ public class viewNote extends HttpServlet {
             dispatcher.forward(req, resp);
             return;
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/userNotes.jsp");
-        dispatcher.forward(req, resp);
+        resp.sendRedirect(req.getContextPath()+"/userNotes");
     }
 }
