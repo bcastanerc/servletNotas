@@ -79,7 +79,7 @@
               </button>
             </div>
             <div class="modal-body">
-              Your account will be deleted permanently. Are you sure?
+              Your account will be deleted permanently, and all your notes will be lost. Are you sure?
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>

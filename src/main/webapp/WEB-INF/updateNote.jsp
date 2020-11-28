@@ -29,13 +29,13 @@
               <textarea class="form-control rounded-0" name="text" rows="20">${text}</textarea>
               <style>textarea {resize: none; overflow: auto;}</style>
           </div>
-          <button type="submit" class="btn btn-primary">submit edit</button>
+          <button type="submit" class="btn btn-primary">Submit edit</button>
           <a href="/updateNote?id=${id}&deleteNote" class="btn btn-danger">Delete note</a>
           <input type="hidden" name="id" value="${id}">
           <input type="hidden" name="_csrftoken" value="${csrfToken}">
       </form>
       <div class="d-flex justify-content-around mt-4">
-         <form method="POST" action="/updateNote" class="w-50">
+         <form method="POST" action="/updateNote" class="w-50 mb-3">
           <div class="form-group">
           <label style="margin-top: 10px;"><b>Share This Note</b></label>
           <input
@@ -46,10 +46,10 @@
             name="emailToShare"
           />
           <small class="form-text text-muted"
-            >Introduce the email of the person to share</small
+            >Introduce the email of the person to share/un-share</small
           >
         </div>
-          <label style="margin-right: 20px;">Share</label>
+          <label style="margin-right: 20px;"><small>Share</small></label>
           <input type="radio" checked="checked" class="intd form-check-input" name="actionType" value="share">
           <label style="margin-right: 20px;"><small>Un-Share</small></label>
           <input type="radio" class="intd form-check-input" name="actionType" value="delete">

@@ -75,11 +75,11 @@ public class NoteService {
         switch (type){
             case 1:
                 // Busqueda titulo
-                for (Note n : notes) if (n.getTitle().contains(input)) filteredNotes.add(n);
+                for (Note n : notes) if (n.getTitle().toLowerCase().contains(input.toLowerCase())) filteredNotes.add(n);
                 break;
             case 2:
                 // Busqueda texto
-                for (Note n : notes) if (n.getText().contains(input)) filteredNotes.add(n);
+                for (Note n : notes) if (n.getText().toLowerCase().contains(input.toLowerCase())) filteredNotes.add(n);
                 break;
             case 3:
                 // Busqueda expresion regular
