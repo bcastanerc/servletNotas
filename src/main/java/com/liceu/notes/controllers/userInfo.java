@@ -56,12 +56,14 @@ public class userInfo extends HttpServlet {
             try {
                 userService.update(new User(actualUser.getId(),email,username,userService.encryptPassword(password)));
                 session.invalidate();
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/login.jsp");
-                dispatcher.forward(req, resp);
+                resp.sendRedirect(req.getContextPath()+"/login");
+                return;
             } catch (NoSuchAlgorithmException | SQLException e) {
                 e.printStackTrace();
             }
-        }else req.setAttribute("error", true);
+        }
+        req.setAttribute("error", true);
+        req.setAttribute("csrfToken", req.getParameter("_csrftoken"));
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/userInfo.jsp");
         dispatcher.forward(req, resp);
     }

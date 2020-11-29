@@ -12,14 +12,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NoteService {
-    NoteDAOImplementation nd = new NoteDAOImplementation();
+    NoteDAOImplementation noteDAO = new NoteDAOImplementation();
 
     public List<Note> getAllFromId(int user_id) {
-       return  nd.getAllFromId(user_id);
+       return  noteDAO.getAllFromId(user_id);
     }
 
     public void add(Note note){
-        nd.add(note);
+        noteDAO.add(note);
     }
 
     /**
@@ -36,31 +36,27 @@ public class NoteService {
     }
 
     public Note searchById(int id){
-        return nd.searchById(id);
+        return noteDAO.searchById(id);
     }
 
     public void update(Note note) {
-        nd.update(note);
+        noteDAO.update(note);
     }
 
     public void delete(int id){
-        nd.delete(id);
+        noteDAO.delete(id);
     }
 
     public void shareNoteToUserById(int id_shared_user, int id_note){
-        nd.shareNoteToUserById(id_shared_user, id_note);
+        noteDAO.shareNoteToUserById(id_shared_user, id_note);
     }
 
     public void deleteSharedNote(int id_shared_user, int id_note){
-        nd.deleteSharedNote(id_shared_user, id_note);
-    }
-
-    public List<String> getAllSharedUsersFromIdNote(int id_note) {
-     return nd.getAllSharedUsersFromIdNote(id_note);
+        noteDAO.deleteSharedNote(id_shared_user, id_note);
     }
 
     public boolean isNoteSharedToUser(int id_shared_user, int id_note) {
-        return nd.isNoteSharedToUser(id_shared_user, id_note);
+        return noteDAO.isNoteSharedToUser(id_shared_user, id_note);
     }
 
     /**
@@ -74,23 +70,25 @@ public class NoteService {
         List<Note> filteredNotes = new ArrayList<>();
         switch (type){
             case 1:
-                // Busqueda titulo
+                // Filter by title.
                 for (Note n : notes) if (n.getTitle().toLowerCase().contains(input.toLowerCase())) filteredNotes.add(n);
                 break;
             case 2:
-                // Busqueda texto
+                // Filter by text.
                 for (Note n : notes) if (n.getText().toLowerCase().contains(input.toLowerCase())) filteredNotes.add(n);
                 break;
             case 3:
-                // Busqueda expresion regular
+                // Filter by regex expression.
                 Pattern pattern = Pattern.compile(input);
                 for (Note n : notes) {
                     Matcher noteMatcher = pattern.matcher(n.getText());
-                    if (noteMatcher.matches()) filteredNotes.add(n);
+                    if (noteMatcher.matches()){
+                        filteredNotes.add(n);
+                    }
                 }
                 break;
             case 4:
-                // Busqueda antes de fecha de creacion
+                // Filter by creation date.
                 try {
                     for (Note n : notes) {
                         SimpleDateFormat formatter5 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -102,12 +100,11 @@ public class NoteService {
                 }
                 break;
             case 5:
-                // Busqueda antes de fecha de modificacion
+                // Filter by last modification date.
                 try {
                     for (Note n : notes) {
                         SimpleDateFormat formatter5 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date1 = formatter5.parse(input);
-                        System.out.println("Date" + date1.toString());
                         if (n.getLast_modification().after(date1))filteredNotes.add(n);
                     }
                 } catch (ParseException e) {

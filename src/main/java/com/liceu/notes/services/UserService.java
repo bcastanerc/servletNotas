@@ -52,8 +52,8 @@ public class UserService {
     /**
      * Encrypt the password to sha-512.
      * @param password The usser password.
-     * @return returns the encripted password 64chars
-     * @throws NoSuchAlgorithmException
+     * @return returns the encripted password 64chars.
+     * @throws NoSuchAlgorithmException exception thrown by the library.
      */
     public String encryptPassword(String password) throws NoSuchAlgorithmException {
 
@@ -104,4 +104,9 @@ public class UserService {
     public boolean isEmailUsed(String email){
         return userDAO.isEmailNotUsed(email);
     }
+
+    public List<User> getAllSharedUsersFromIdNote(int id_note) {
+        return userDAO.getAllSharedUsersFromIdNote(id_note);
+    }
+
 }

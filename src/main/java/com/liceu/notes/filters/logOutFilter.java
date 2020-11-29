@@ -12,12 +12,6 @@ import java.net.URL;
 
 @WebFilter(filterName = "logoutfilter")
 public class logOutFilter implements Filter {
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
-
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
         URL url = new URL(((HttpServletRequest) req).getRequestURL().toString());
@@ -31,9 +25,5 @@ public class logOutFilter implements Filter {
         }
         RequestDispatcher dispatcher = req.getRequestDispatcher(url.getPath());
         dispatcher.forward(req, resp);
-    }
-
-    public void destroy() {
-
     }
 }

@@ -15,4 +15,5 @@ public interface UserDAO {
     User getUserFromId(int id);
     boolean userOwnsNote(int user_id, int id_note);
     User getUserFromEmail(String email);
+    List<User> getAllSharedUsersFromIdNote(int id_note);
 }

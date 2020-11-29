@@ -23,24 +23,22 @@ public class viewNote extends HttpServlet {
         UserService userService = new UserService();
 
         HttpSession session = req.getSession();
-        int userID = (int) session.getAttribute("user_id");
-        int noteID = Integer.parseInt(req.getParameter("id"));
+        // If id is not null, to prevent null pointer if the user force /viewNote whith no params.
+        if (req.getParameter("id") != null){
+            int userID = (int) session.getAttribute("user_id");
+            int noteID = Integer.parseInt(req.getParameter("id"));
 
-        // Solo podrá ver la nota si es el propietario o se le compartió, no se puede entrar por URL.
-        if (req.getParameter("id") != null && (userService.userOwnsNote(userID,noteID) || noteService.isNoteSharedToUser(userID,noteID))){
+            // The user can see the note if is the owner or is shared to him, can't force by url.
+            if (req.getParameter("id") != null && (userService.userOwnsNote(userID,noteID) || noteService.isNoteSharedToUser(userID,noteID))){
+                Note actualNote = noteService.searchById(noteID);
+                req.setAttribute("note", actualNote);
+                req.setAttribute("ownerEmail", userService.getUserFromId(actualNote.getUser_id()).getEmail());
+                req.setAttribute("owner", userService.userOwnsNote(userID, actualNote.getId()));
 
-            Note actualNote = noteService.searchById(noteID);
-            req.setAttribute("title", actualNote.getTitle());
-            req.setAttribute("text", actualNote.getText());
-            req.setAttribute("id", actualNote.getId());
-            req.setAttribute("creation_date", actualNote.getCreation_date());
-            req.setAttribute("last_modification", actualNote.getLast_modification());
-            req.setAttribute("ownerEmail", userService.getUserFromId(actualNote.getUser_id()).getEmail());
-            req.setAttribute("owner", userService.userOwnsNote(userID, actualNote.getId()));
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/viewNote.jsp");
-            dispatcher.forward(req, resp);
-            return;
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/viewNote.jsp");
+                dispatcher.forward(req, resp);
+                return;
+            }
         }
         resp.sendRedirect(req.getContextPath()+"/userNotes");
     }

@@ -9,12 +9,6 @@ import java.io.IOException;
 
 @WebFilter(filterName = "authenticationfilter")
 public class AuthenticationFilter implements Filter {
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
-
     @Override
     public void doFilter(ServletRequest req, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpSession session = ((HttpServletRequest) req).getSession();
@@ -25,9 +19,5 @@ public class AuthenticationFilter implements Filter {
         return;
         }
         resp.sendRedirect(((HttpServletRequest) req).getContextPath() + "/login");
-    }
-
-    public void destroy() {
-
     }
 }

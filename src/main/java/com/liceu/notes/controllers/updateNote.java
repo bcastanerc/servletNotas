@@ -25,34 +25,38 @@ public class updateNote extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         NoteService noteService = new NoteService();
+        UserService userService = new UserService();
+        HttpSession session = req.getSession();
 
-        if(req.getParameter("deleteNote") != null){
-            noteService.delete(Integer.parseInt(req.getParameter("id")));
-            resp.sendRedirect(req.getContextPath()+"/userNotes");
-            return;
-        }
-
+        // If id is not null, to prevent null pointer if the user force /updateNote whith no params.
         if (req.getParameter("id") != null){
+            // If the user is the owner of the note.
+            if (userService.userOwnsNote((Integer) session.getAttribute("user_id"),Integer.parseInt(req.getParameter("id")))) {
+                // Delete the note.
+                if(req.getParameter("deleteNote") != null){
+                    noteService.delete(Integer.parseInt(req.getParameter("id")));
+                    resp.sendRedirect(req.getContextPath()+"/userNotes");
+                    return;
+                }
 
-            Note actualNote = noteService.searchById(Integer.parseInt(req.getParameter("id")));
-            req.setAttribute("title", actualNote.getTitle());
-            req.setAttribute("text", actualNote.getText());
-            req.setAttribute("id", actualNote.getId());
+                // Show the note to edit.
+                Note actualNote = noteService.searchById(Integer.parseInt(req.getParameter("id")));
+                req.setAttribute("note", actualNote);
 
-            List<String> emails = noteService.getAllSharedUsersFromIdNote(actualNote.getId());
-            System.out.println(Arrays.toString(emails.toArray()));
 
-            req.setAttribute("users", emails.toArray());
+                List<User> usersShared = userService.getAllSharedUsersFromIdNote(actualNote.getId());
+                req.setAttribute("usersShared", usersShared.toArray());
 
-            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/updateNote.jsp");
-            dispatcher.forward(req, resp);
-            return;
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/updateNote.jsp");
+                dispatcher.forward(req, resp);
+                return;
+            }
         }
         resp.sendRedirect(req.getContextPath()+"/userNotes");
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         NoteService noteService = new NoteService();
         UserService userService = new UserService();
@@ -60,37 +64,39 @@ public class updateNote extends HttpServlet {
         String emailToShare = req.getParameter("emailToShare");
         int id_note = Integer.parseInt(req.getParameter("id"));
 
-        if (emailToShare != null && userService.getUserFromEmail(emailToShare) != null){
-            User userToShare = userService.getUserFromEmail(emailToShare);
+        // Checks that the user owns the note.
+        if (userService.userOwnsNote((int) session.getAttribute("user_id"),id_note)){
+            // If there is an email to share and it exist.
+            if (emailToShare != null && userService.getUserFromEmail(emailToShare) != null){
+                User userToShare = userService.getUserFromEmail(emailToShare);
 
-            if (req.getParameter("actionType") != null){
-                if(req.getParameter("actionType").equals("share")){
-                    noteService.shareNoteToUserById(userToShare.getId(), id_note);
+                // Prevent html modification at values with developer console.
+                if (req.getParameter("actionType") != null){
+                    if(req.getParameter("actionType").equals("share")){
+                        noteService.shareNoteToUserById(userToShare.getId(), id_note);
+                    }
+                    if (req.getParameter("actionType").equals("delete")){
+                        noteService.deleteSharedNote(userToShare.getId(), id_note);
+                    }
                 }
-                if (req.getParameter("actionType").equals("delete")){
-                    noteService.deleteSharedNote(userToShare.getId(), id_note);
-                }
+                resp.sendRedirect(req.getContextPath()+"/userNotes");
+                return;
             }
-            resp.sendRedirect(req.getContextPath()+"/userNotes");
-            return;
-        }
 
-        if (userService.userOwnsNote((int) session.getAttribute("user_id"),id_note) && emailToShare == null){
-            noteService.update(
-                    new Note(Integer.parseInt(
-                            req.getParameter("id")),
-                            req.getParameter("title"),
-                            req.getParameter("text"),
-                            null,null,
-                            (Integer) session.getAttribute("user_id"))
-            );
-            resp.sendRedirect(req.getContextPath()+"/userNotes");
-            return;
-
+            // Update the note if the user is the owner of it and there is no input at the share email.
+            if (emailToShare == null){
+                noteService.update(
+                        new Note(Integer.parseInt(
+                                req.getParameter("id")),
+                                req.getParameter("title"),
+                                req.getParameter("text"),
+                                null,null,
+                                (Integer) session.getAttribute("user_id"))
+                );
+                resp.sendRedirect(req.getContextPath()+"/userNotes");
+                return;
+            }
         }
-        req.setAttribute("error", true);
-        req.setAttribute("csrfToken", req.getParameter("_csrftoken"));
-        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/updateNote.jsp");
-        dispatcher.forward(req, resp);
+        resp.sendRedirect(req.getContextPath()+"/userNotes");
     }
 }

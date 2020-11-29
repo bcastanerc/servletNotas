@@ -97,6 +97,7 @@
           <version>1.5.0</version>
           <configuration>
             <container>
+              <!-- FIXME change it to the Tomcat route-->
               <containerId>tomcat7x</containerId>
               <type>installed</type>
               <home>C:\Program Files (x86)\Apache Software Foundation\Tomcat 9.0</home>

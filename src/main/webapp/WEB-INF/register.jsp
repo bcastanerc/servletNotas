@@ -7,6 +7,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="icon"
+      href="https://w7.pngwing.com/pngs/263/431/png-transparent-javaserver-pages-jar-java-servlet-computer-software-jar-text-logo-computer-programming-thumbnail.png"
+    />
+    <link>
+    <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
@@ -53,12 +58,11 @@
           <input
             type="password"
             class="form-control"
-            placeholder="Password"
+            placeholder="P@ssw0rd"
             name="password"
           />
           <small class="form-text text-muted"
-            >Password must be at least 8 character and contain at least one
-            letter, number, special char, without spaces.</small
+            >Password must be at least 8 character and contain at least 1 letter, 1 number, 1 special char and 1 cap letter, without spaces.</small
           >
         </div>
 

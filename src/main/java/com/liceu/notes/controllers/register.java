@@ -35,9 +35,7 @@ public class register extends HttpServlet {
             try {
                 String encryptedPassword = userService.encryptPassword(password);
                 userService.add(new User(0, email, username, encryptedPassword));
-
                 resp.sendRedirect(req.getContextPath() + "/login");
-
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }

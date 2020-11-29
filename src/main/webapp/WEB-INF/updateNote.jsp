@@ -22,16 +22,16 @@
       <form method="POST" action="/updateNote">
           <div class="form-group">
               <label>Title of the note</label>
-              <input id="title" type="text" class="form-control" name="title" aria-describedby="basic-addon1" value = "${title}">
+              <input id="title" type="text" class="form-control" name="title" aria-describedby="basic-addon1" value = "${note.title}">
           </div>
           <div class="form-group">
               <label>Text of the note</label>
-              <textarea class="form-control rounded-0" name="text" rows="20">${text}</textarea>
+              <textarea class="form-control rounded-0" name="text" rows="20">${note.text}</textarea>
               <style>textarea {resize: none; overflow: auto;}</style>
           </div>
           <button type="submit" class="btn btn-primary">Submit edit</button>
-          <a href="/updateNote?id=${id}&deleteNote" class="btn btn-danger">Delete note</a>
-          <input type="hidden" name="id" value="${id}">
+          <a href="/updateNote?id=${note.id}&deleteNote" class="btn btn-danger">Delete note</a>
+          <input type="hidden" name="id" value="${note.id}">
           <input type="hidden" name="_csrftoken" value="${csrfToken}">
       </form>
       <div class="d-flex justify-content-around mt-4">
@@ -54,7 +54,7 @@
           <label style="margin-right: 20px;"><small>Un-Share</small></label>
           <input type="radio" class="intd form-check-input" name="actionType" value="delete">
           <button type="submit" class="btn btn-primary ml-4">Share</button>
-          <input type="hidden" name="id" value="${id}">
+          <input type="hidden" name="id" value="${note.id}">
           <input type="hidden" name="_csrftoken" value="${csrfToken}">
         </form>
         <table class="table table-striped w-25">
@@ -64,9 +64,9 @@
             </tr>
           </thead>
           <tbody>
-            <c:forEach var="u" items="${users}">
+            <c:forEach var="u" items="${usersShared}">
               <tr>
-                <td>${u}</td>
+                <td>${u.email}</td>
               </tr>
             </c:forEach>
           </tbody>
@@ -74,7 +74,7 @@
       </div>
       <c:if test="${error eq true}">
         <div style="margin-top: 20px;" class="alert alert-warning fade show">
-          <strong>Warning!</strong> You can't edit a note if you are not the owner and you can't share a note to a non-existing user.
+          <strong>Warning!</strong> You can't share a note to a non-existing user, check if the email is correct.
           <button type="button" class="close" data-dismiss="alert"></button>
         </div>
       </c:if>

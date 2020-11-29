@@ -122,10 +122,11 @@ public class UserDAOImplementation implements UserDAO{
             ps.setString(1, email);
 
             ResultSet rs = ps.executeQuery();
+            boolean  notUsed = !rs.next();
             rs.close();
             ps.close();
             Database.closeConnection();
-            return !rs.next();
+            return notUsed;
         }
         catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -150,8 +151,8 @@ public class UserDAOImplementation implements UserDAO{
             ps.close();
             Database.closeConnection();
             return new User(id, email, username, password);
-            
-            }catch (Exception e){
+        }
+        catch (Exception e){
                 e.printStackTrace();
             }
         return null;
@@ -159,18 +160,23 @@ public class UserDAOImplementation implements UserDAO{
 
     @Override
     public boolean userOwnsNote(int user_id, int id_note) {
-                try {
-                    Connection c = Database.getConnection();
-                    assert c != null;
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("select * from notes where id = ? and user_id = ?");
+            ps.setInt(1, id_note);
+            ps.setInt(2, user_id);
+            ResultSet rs = ps.executeQuery();
+            boolean ownsNote = rs.next();
 
-                    PreparedStatement ps = c.prepareStatement("select * from notes where id = ? and user_id = ?");
-                    ps.setInt(1, id_note);
-                    ps.setInt(2, user_id);
-                    ResultSet rs = ps.executeQuery();
-                    return rs.next();
-                }catch (Exception e){
-                    e.printStackTrace();
-    }
+            rs.close();
+            ps.close();
+            Database.closeConnection();
+            return ownsNote;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -191,10 +197,36 @@ public class UserDAOImplementation implements UserDAO{
             ps.close();
             Database.closeConnection();
             return new User(id, email, username, password);
-
-        }catch (Exception e){
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<User> getAllSharedUsersFromIdNote(int id_note) {
+        List<User> usersShared = new ArrayList<>();
+        try {
+            Connection c = Database.getConnection();
+            assert c != null;
+            PreparedStatement ps = c.prepareStatement("select * from users where id in(select id_shared_user from shared_note where id_note = ?)");
+            ps.setInt(1, id_note);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                usersShared.add(new User( rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("username"),
+                        rs.getString("password")));
+            }
+            rs.close();
+            ps.close();
+            Database.closeConnection();
+            return usersShared;
+        }
+        catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
     }
 }

@@ -26,7 +26,6 @@ public class NoteDAOImplementation implements NoteDAO{
                 String text = rs.getString("text");
                 String creation_date = rs.getString("creation_date");
                 String last_modification = rs.getString("last_modification");
-
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 notes.add(new Note(id, title, text, df.parse(creation_date), df.parse(last_modification), user_id));
@@ -34,7 +33,8 @@ public class NoteDAOImplementation implements NoteDAO{
             rs.close();
             ps.close();
             Database.closeConnection();
-        }catch (Exception e){
+        }
+        catch (Exception e){
             e.printStackTrace();
             System.out.println("Error getAllFromId");
         }
@@ -55,7 +55,8 @@ public class NoteDAOImplementation implements NoteDAO{
 
             ps.close();
             Database.closeConnection();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error insert note");
         }
@@ -72,8 +73,8 @@ public class NoteDAOImplementation implements NoteDAO{
             ps.execute();
             ps.close();
             Database.closeConnection();
-
-        } catch (SQLException throwables) {
+        }
+        catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
@@ -91,7 +92,8 @@ public class NoteDAOImplementation implements NoteDAO{
 
             ps.close();
             Database.closeConnection();
-        } catch (SQLException throwables) {
+        }
+        catch (SQLException throwables) {
             throwables.printStackTrace();
             System.out.println("Error update Notes");
         }
@@ -118,22 +120,17 @@ public class NoteDAOImplementation implements NoteDAO{
             int user_id = rs.getInt("user_id");
 
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
             Note noteByID = new Note(id, title, text, df.parse(creation_date), df.parse(last_modification), user_id);
 
             rs.close();
             ps.close();
             Database.closeConnection();
             return noteByID;
-        } catch (SQLException | ParseException throwables) {
+        }
+        catch (SQLException | ParseException throwables) {
             throwables.printStackTrace();
             return null;
         }
-    }
-
-        @Override
-    public Note searchByTextString(String text) {
-        return null;
     }
 
     @Override
@@ -148,7 +145,8 @@ public class NoteDAOImplementation implements NoteDAO{
 
             ps.close();
             Database.closeConnection();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error share note");
         }
@@ -163,36 +161,15 @@ public class NoteDAOImplementation implements NoteDAO{
             ps.setInt(1, id_shared_user);
             ps.setInt(2, id_note);
             ps.execute();
+
             ps.close();
             Database.closeConnection();
-
-        } catch (SQLException throwables) {
+        }
+        catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    @Override
-    public List<String> getAllSharedUsersFromIdNote(int id_note) {
-        List<String> userMail = new ArrayList<>();
-        try {
-            Connection c = Database.getConnection();
-            assert c != null;
-            PreparedStatement ps = c.prepareStatement("select * from(select email from users where id in(select id_shared_user from shared_note where id_note = ?))");
-            ps.setInt(1, id_note);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String email = rs.getString("email");
-               userMail.add(email);
-            }
-            rs.close();
-            ps.close();
-            Database.closeConnection();
-            return userMail;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
-    }
 
     @Override
     public boolean isNoteSharedToUser(int id_shared_user, int id_note) {
@@ -203,8 +180,14 @@ public class NoteDAOImplementation implements NoteDAO{
             ps.setInt(1, id_shared_user);
             ps.setInt(2, id_note);
             ResultSet rs = ps.executeQuery();
-            return rs.next();
-        }catch (Exception e){
+            boolean sharedToUser = rs.next();
+
+            rs.close();
+            ps.close();
+            Database.closeConnection();
+            return sharedToUser;
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
         return false;

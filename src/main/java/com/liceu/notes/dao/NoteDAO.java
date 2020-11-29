@@ -12,9 +12,7 @@ public interface NoteDAO {
     void update(Note note);
     void share(Note note);
     Note searchById(int id);
-    Note searchByTextString(String text);
     void shareNoteToUserById(int id_shared_user, int id_note);
     void deleteSharedNote(int id_shared_user, int id_note);
-    List<String> getAllSharedUsersFromIdNote(int id_note);
     boolean isNoteSharedToUser(int id_shared_user, int id_note);
 }
