@@ -32,7 +32,7 @@ public class userNotes extends HttpServlet {
         HttpSession session = req.getSession();
         NoteService noteService = new NoteService();
 
-        if(req.getParameter("inputType") != null && req.getParameter("searchInput") != null) {
+        if(req.getParameter("inputType") != null && req.getParameter("searchInput") != null && !req.getParameter("searchInput").equals("")) {
 
             int type = Integer.parseInt(req.getParameter("inputType"));
             String input = req.getParameter("searchInput");
@@ -43,6 +43,8 @@ public class userNotes extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/userNotes.jsp");
             dispatcher.forward(req, resp);
         }
+        System.out.println(req.getParameter("inputType"));
+        System.out.println(req.getParameter("searchInput"));
 
         String[] ids = req.getParameterValues("notesToDelete[]");
         if (ids != null){
@@ -51,7 +53,6 @@ public class userNotes extends HttpServlet {
             for (String id : ids) {
                 if (userService.userOwnsNote(user_id, Integer.parseInt(id))) noteService.delete(Integer.parseInt(id));
                 else noteService.deleteSharedNote(user_id, Integer.parseInt(id));
-
             }
         }
         resp.sendRedirect(req.getContextPath() + "/userNotes");

@@ -84,31 +84,41 @@
     <h1 class="display-2 d-flex justify-content-center">Your Notes</h1>
     <main class="container">
       <form method="POST" action="/userNotes">
-    
-         <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Delete Selected Notes</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              All the selected notes will be deleted permanently. Are you sure?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-              <button type="submit" class="btn btn-danger" data-toggle="modal">Yes</button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Selected Notes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                All the selected notes will be deleted permanently. Are you sure?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-danger" data-toggle="modal">Yes</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-        <div class="d-flex justify-content-between flex-wrap">
-          <c:forEach var="n" items="${notes}">
+        <div id="notesContainer" class="d-flex justify-content-between flex-wrap">
+        </div>
+        <input type="hidden" name="_csrftoken" value="${csrfToken}">
+      </form>
+      <button id="previous" type="button" class="btn btn-primary" onClick="previousPage()">Previous</button>
+      <button id="next" type="button" class="btn btn-primary" onClick="nextPage()">Next</button>
+    </main>
+    
+    <script>
+      let notes = [];
+      
+      <c:forEach var="n" items="${notes}">
+      notes.push(`
             <div class="card">
-            <div class="card-body">
+              <div class="card-body">
                 <h5 class="card-title">${sanitize.sanitizeNote(n.title)}</h5>
                 <p class="card-text">${sanitize.sanitizeNote(n.text)}</p>
                 <div class="cdinner d-flex justify-content-around">
@@ -121,11 +131,49 @@
                 </div>
               </div>
             </div>
-          </c:forEach>
-        </div>
-        <input type="hidden" name="_csrftoken" value="${csrfToken}">
-      </form>
-    </main>
+            `);
+      </c:forEach>
+      let pointer = 0;
+      let notesPerPag = 10;
+      let box = document.querySelector("#notesContainer");
+
+      function displayNotes(){
+        let displayNotes = [];
+        box.innerHTML = "";
+        let input = "";
+        for(let i = 0; i < notesPerPag; i++){
+            try {
+                let insert = notes[pointer+i];
+                if(insert){
+                  input += insert;
+                  box.innerHTML = input;
+                }
+            } catch (error) {}
+        }
+      }
+
+      function nextPage(){
+        if(notes.length > parseInt(pointer) + parseInt(notesPerPag)){
+          pointer = pointer+notesPerPag;
+        }
+        displayNotes();
+      }
+
+      function previousPage(){
+         if(parseInt(pointer) > 0){
+          pointer = pointer-notesPerPag;
+        }
+        displayNotes();
+      }
+
+      window.addEventListener('load', (event) => {
+          displayNotes();
+          if(notes.length < 10){
+            document.querySelector("#next").style.display = "none";
+            document.querySelector("#previous").style.display = "none";
+          }
+      });
+    </script>
     <!-- Boostrap script-->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

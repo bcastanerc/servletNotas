@@ -38,7 +38,6 @@ public class updateNote extends HttpServlet {
                     resp.sendRedirect(req.getContextPath()+"/userNotes");
                     return;
                 }
-
                 // Show the note to edit.
                 Note actualNote = noteService.searchById(Integer.parseInt(req.getParameter("id")));
                 req.setAttribute("note", actualNote);
@@ -83,8 +82,9 @@ public class updateNote extends HttpServlet {
                 return;
             }
 
-            // Update the note if the user is the owner of it and there is no input at the share email.
-            if (emailToShare == null){
+            // Update the note if the user is the owner of it and there is no input at the share email, title and text is not empty.
+            if (emailToShare == null && !req.getParameter("title").equals("") &&
+                    !req.getParameter("text").equals("") &&  req.getParameter("id") != null){
                 noteService.update(
                         new Note(Integer.parseInt(
                                 req.getParameter("id")),
