@@ -43,8 +43,6 @@ public class userNotes extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/userNotes.jsp");
             dispatcher.forward(req, resp);
         }
-        System.out.println(req.getParameter("inputType"));
-        System.out.println(req.getParameter("searchInput"));
 
         String[] ids = req.getParameterValues("notesToDelete[]");
         if (ids != null){

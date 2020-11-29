@@ -108,13 +108,12 @@
         </div>
         <input type="hidden" name="_csrftoken" value="${csrfToken}">
       </form>
-      <button id="previous" type="button" class="btn btn-primary" onClick="previousPage()">Previous</button>
-      <button id="next" type="button" class="btn btn-primary" onClick="nextPage()">Next</button>
+      <div id="buttonsPags" class="d-flex justify-content-center">
+      </div>
     </main>
     
     <script>
       let notes = [];
-      
       <c:forEach var="n" items="${notes}">
       notes.push(`
             <div class="card">
@@ -167,11 +166,12 @@
       }
 
       window.addEventListener('load', (event) => {
-          displayNotes();
-          if(notes.length < 10){
-            document.querySelector("#next").style.display = "none";
-            document.querySelector("#previous").style.display = "none";
+          if(notes.length > notesPerPag){
+            document.querySelector("#buttonsPags").innerHTML = 
+            `<button id="previous" type="button" class="btn btn-primary m-3" onClick="previousPage()">Previous</button>
+              <button id="next" type="button" class="btn btn-primary m-3" onClick="nextPage()">Next</button>`;
           }
+          displayNotes();
       });
     </script>
     <!-- Boostrap script-->
