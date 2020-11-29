@@ -13,7 +13,6 @@ public class sanitize {
      * @param text texto escrito por el usuario en la nota.
      * @return el texto saneado sin markdown ni html.
      */
-
     public static String sanitizeNote(String text){
         Parser parser = Parser.builder().build();
         Node document = parser.parse(text);
